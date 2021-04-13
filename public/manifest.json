@@ -3,11 +3,22 @@
   "name": "Chrome extension for better Steam UI rating",
   "version": "1.0",
   "manifest_version": 2,
+  "icons": { "16": "logo192.png", "48": "logo192.png", "128": "logo192.png" },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": ["activeTab"],
   "browser_action": {
     "default_popup": "index.html",
     "default_title": "Steam Better UI Rating"
   },
-  "icons": { "16": "logo192.png", "48": "logo192.png", "128": "logo192.png" },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "permissions": ["activeTab"]
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ]
 }

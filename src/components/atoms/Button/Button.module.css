@@ -1,0 +1,399 @@
+.btn {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  background-color: var(--color-grey-500);
+  color: var(--color-white);
+  padding: var(--padding-s) var(--padding-xl);
+  font-size: var(--fs-m);
+  font-family: var(--font-primary);
+  font-weight: 500;
+  border-radius: var(--rad-32);
+  transition: 0.3s ease-in-out;
+  transition-property: background-color, color, opacity, border, fill;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  background-color: var(--color-grey-300);
+  cursor: initial;
+  pointer-events: none;
+}
+.btn:hover {
+  background-color: var(--color-black);
+}
+.btn:active {
+  background-color: var(--color-grey-300);
+}
+
+.btn.primary {
+  background-color: var(--color-primary-500);
+}
+.btn.primary:hover {
+  background-color: var(--color-primary-800);
+}
+.btn.primary:focus {
+  background-color: var(--color-primary-800);
+}
+.btn.primary:active,
+.btn.primary:disabled {
+  background-color: var(--color-primary-300);
+}
+
+.btn.grey {
+  background-color: var(--color-grey-500);
+}
+.btn.grey:hover {
+  background-color: var(--color-black);
+}
+.btn.grey:active,
+.btn.grey:disabled {
+  background-color: var(--color-grey-300);
+}
+
+.btn.white {
+  border: 1px solid var(--color-grey-100);
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+.btn.white:hover {
+  background-color: var(--color-grey-100);
+}
+.btn.white:active,
+.btn.white:disabled {
+  background-color: var(--color-grey-50);
+}
+
+.btn.xs {
+  border-radius: var(--rad-32);
+  font-size: var(--fs-xs) !important;
+  padding: var(--padding-xs) var(--padding-m);
+}
+.btn.s {
+  border-radius: var(--rad-32);
+  font-size: var(--fs-s) !important;
+  padding: var(--padding-xs) var(--padding-m);
+}
+.btn.m {
+  border-radius: var(--rad-32);
+  font-size: var(--fs-m) !important;
+  padding: var(--padding-s) var(--padding-xl);
+}
+.btn.l {
+  border-radius: var(--rad-32);
+  padding: var(--padding-m) var(--padding-xl);
+  font-size: var(--fs-m);
+  font-weight: 600;
+}
+
+.btn.xs svg {
+  height: 0.75rem;
+  margin-right: var(--margin-s);
+}
+.btn.s svg {
+  height: 0.75rem;
+  margin-right: var(--margin-s);
+}
+.btn.m svg {
+  height: 1rem;
+  margin-right: var(--margin-m);
+}
+.btn.l svg {
+  height: 1.5rem;
+  margin-right: var(--margin-m);
+}
+
+/* .btn.s.transparent svg,
+.btn.m.transparent svg {
+  margin: 0;
+} */
+
+.loader {
+  margin-right: var(--padding-m);
+}
+
+.xs .loader {
+  height: 0.75rem !important;
+  width: 0.75rem !important;
+}
+
+.s .loader {
+  height: 0.75rem !important;
+  width: 0.75rem !important;
+}
+
+.m .loader {
+  height: 1rem !important;
+  width: 1rem !important;
+}
+.l .loader {
+  height: 1.25rem !important;
+  width: 1.25rem !important;
+}
+
+.btn.outline {
+  font-size: var(--fs-m);
+  border: 2px solid var(--color-black);
+  color: var(--color-black);
+  background-color: transparent;
+}
+.btn.outline:hover {
+  border: 2px solid var(--color-grey-500);
+  color: var(--color-grey-500);
+  background-color: transparent;
+}
+.btn.outline:active,
+.btn.outline:disabled {
+  border: 2px solid var(--color-grey-300);
+  color: var(--color-grey-300);
+  background-color: transparent;
+}
+
+.btn.outline.primary {
+  border: 2px solid var(--color-primary-500);
+  color: var(--color-primary-500);
+  background-color: transparent;
+}
+.btn.outline.primary:hover {
+  border: 2px solid var(--color-primary-800);
+  color: var(--color-primary-800);
+  background-color: transparent;
+}
+.btn.outline.primary:active,
+.btn.outline.primary:disabled {
+  border: 2px solid var(--color-primary-300);
+  color: var(--color-primary-300);
+  background-color: transparent;
+}
+
+.btn.outline.primary svg {
+  fill: var(--color-primary-500) !important;
+}
+.btn.outline.primary:hover svg {
+  fill: var(--color-primary-800) !important;
+}
+.btn.outline.primary:active svg,
+.btn.outline.primary:disabled svg {
+  fill: var(--color-primary-300) !important;
+}
+
+.btn.outline.grey {
+  border: 2px solid var(--color-grey-200);
+  color: var(--color-black);
+  background-color: transparent;
+}
+.btn.outline.grey:hover {
+  border: 2px solid var(--color-grey-500);
+  /* color: var(--color-grey-500); */
+  background-color: transparent;
+}
+.btn.outline.grey:active,
+.btn.outline.grey:disabled {
+  border: 2px solid var(--color-grey-300);
+  /* color: var(--color-black); */
+  background-color: transparent;
+}
+
+.btn.outline.white {
+  border: 2px solid var(--color-white);
+  color: var(--color-black);
+  background-color: transparent;
+}
+.btn.outline.white:hover {
+  border: 2px solid var(--color-white);
+  color: var(--color-grey-500);
+  background-color: transparent;
+}
+.btn.outline.white:active,
+.btn.outline.white:disabled {
+  border: 2px solid var(--color-white);
+  color: var(--color-grey-300);
+  background-color: transparent;
+}
+
+.btn.transparent {
+  color: var(--color-black);
+  background-color: transparent;
+  padding: 0;
+}
+.btn.transparent:hover {
+  color: var(--color-grey-500);
+  background-color: transparent;
+}
+.btn.transparent:active,
+.btn.transparent:disabled {
+  color: var(--color-grey-300);
+  background-color: transparent;
+}
+
+.btn.transparentPrimary {
+  color: var(--color-primary-500);
+  background-color: transparent;
+  padding: 0;
+}
+.btn.transparentPrimary:hover {
+  color: var(--color-primary-800);
+  background-color: transparent;
+}
+.btn.transparentPrimary:active,
+.btn.transparentPrimary:disabled {
+  color: var(--color-primary-300);
+  background-color: transparent;
+}
+
+.btn.outline.transparent {
+  border: 0 solid transparent;
+  color: var(--color-black);
+  background-color: transparent;
+}
+.btn.outline.transparent:hover {
+  border: 0 solid transparent;
+  color: var(--color-grey-500);
+  background-color: transparent;
+}
+.btn.outline.transparent:active,
+.btn.outline.transparent:disabled {
+  border: 0 solid transparent;
+  color: var(--color-grey-300);
+  background-color: transparent;
+}
+
+.btn.outline.transparentPrimary {
+  border: 0 solid transparent;
+  color: var(--color-primary-500);
+  background-color: transparent;
+}
+.btn.outline.transparentPrimary:hover {
+  border: 0 solid transparent;
+  color: var(--color-primary-800);
+  background-color: transparent;
+}
+.btn.outline.transparentPrimary:active,
+.btn.outline.transparentPrimary:disabled {
+  border: 0 solid transparent;
+  color: var(--color-primary-300);
+  background-color: transparent;
+}
+
+.btn svg {
+  position: relative;
+  top: -1px;
+  margin-right: var(--margin-s);
+  fill: var(--color-black) !important;
+  transition: 0.3s all;
+}
+.btn:hover svg {
+  fill: var(--color-grey-500) !important;
+}
+.btn:active svg,
+.btn:disabled svg {
+  fill: var(--color-grey-300) !important;
+}
+
+.btn.primary svg {
+  fill: var(--color-white) !important;
+}
+.btn.primary:hover svg {
+  fill: var(--color-white) !important;
+}
+.btn.primary:active svg,
+.btn.primary:disabled svg {
+  fill: var(--color-white) !important;
+}
+
+.btn.white svg {
+  fill: var(--color-black) !important;
+}
+.btn.white:hover svg {
+  fill: var(--color-black) !important;
+}
+.btn.white:active svg,
+.btn.white:disabled svg {
+  fill: var(--color-black) !important;
+}
+
+.btn.transparent svg {
+  fill: var(--color-grey-500) !important;
+}
+.btn.transparent:hover svg {
+  fill: var(--color-black) !important;
+}
+.btn.transparent:active svg,
+.btn.transparent:disabled svg {
+  fill: var(--color-grey-300) !important;
+}
+
+.btn.transparentPrimary svg {
+  fill: var(--color-primary-500) !important;
+}
+.btn.transparentPrimary:hover svg {
+  fill: var(--color-primary-800) !important;
+}
+.btn.transparentPrimary:active svg,
+.btn.transparentPrimary:disabled svg {
+  fill: var(--color-primary-300) !important;
+}
+
+.btn.outline.grey svg {
+  position: relative;
+  top: -1px;
+  margin-right: var(--margin-s);
+  fill: var(--color-grey-500) !important;
+  transition: 0.3s all;
+}
+.btn.outline.grey:hover svg {
+  fill: var(--color-grey-500) !important;
+}
+.btn.outline.grey:active svg,
+.btn.outline.grey:disabled svg {
+  fill: var(--color-grey-500) !important;
+}
+
+.btn.outline.white svg {
+  position: relative;
+  top: -1px;
+  margin-right: var(--margin-s);
+  fill: var(--color-black) !important;
+  transition: 0.3s all;
+}
+.btn.outline.white:hover svg {
+  fill: var(--color-grey-500) !important;
+}
+.btn.outline.white:active svg,
+.btn.outline.white:disabled svg {
+  fill: var(--color-grey-300) !important;
+}
+
+.btn.outline.transparent svg {
+  position: relative;
+  top: -1px;
+  margin-right: var(--margin-s);
+  fill: var(--color-grey-500) !important;
+  transition: 0.3s all;
+}
+.btn.outline.transparent:hover svg {
+  fill: var(--color-black) !important;
+}
+.btn.outline.transparent:active svg,
+.btn.outline.transparent:disabled svg {
+  fill: var(--color-grey-300) !important;
+}
+
+.btn.outline.transparentPrimary svg {
+  position: relative;
+  top: -1px;
+  margin-right: var(--margin-s);
+  fill: var(--color-primary-500) !important;
+  transition: 0.3s all;
+}
+.btn.outline.transparentPrimary:hover svg {
+  fill: var(--color-primary-800) !important;
+}
+.btn.outline.transparentPrimary:active svg,
+.btn.outline.transparentPrimary:disabled svg {
+  fill: var(--color-primary-300) !important;
+}

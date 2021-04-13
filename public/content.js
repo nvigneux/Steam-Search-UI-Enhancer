@@ -12,4 +12,22 @@ for (let i = 0; i < 12; i += 1) {
   snowflakesContainer.appendChild(snowflake.cloneNode(true))
 }
 
-body[0]?.prepend(snowflakesContainer)
+chrome.runtime.sendMessage({ type: "REQ_SNOW_STATUS" })
+
+let snowing = false
+chrome.runtime.onMessage.addListener((message) => {
+  switch (message.type) {
+    case "SNOW_STATUS":
+      if (message.snowing) {
+        if (!snowing) {
+          body[0]?.prepend(snowflakesContainer)
+        }
+      } else {
+        snowflakesContainer.parentNode?.removeChild(snowflakesContainer)
+      }
+      snowing = message.snowing
+      break
+    default:
+      break
+  }
+})

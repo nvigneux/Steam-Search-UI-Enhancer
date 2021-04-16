@@ -1,5 +1,26 @@
 /* src/content.css */
 
+/* Steam Better UI */
+:root {
+  --color-positive-1: rgb(104, 176, 74);
+  --color-positive-2: rgb(75, 131, 179);
+  --color-positive-3: rgb(169, 71, 199);
+  --color-positive-4: rgb(113, 76, 199);
+  --color-mixed-1: rgb(184, 184, 184);
+  --color-negative-1: rgb(197, 197, 62);
+  --color-negative-2: rgb(196, 133, 61);
+  --color-negative-3: rgb(182, 95, 74);
+  --color-negative-4: rgb(204, 72, 72);
+}
+
+.steam-better-ui {
+  height: 59px !important;
+}
+.steam-better-ui .col.search_released {
+  width: 82px !important;
+}
+
+/* SNOWING */
 .snowflake {
   color: #fff;
   font-size: 1em;

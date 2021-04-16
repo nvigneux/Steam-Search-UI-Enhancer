@@ -112,8 +112,11 @@ chrome.runtime.onMessage.addListener((message) => {
       chrome.storage.local.set({ snowing })
       sendTabsMessage({ type: "SNOW_STATUS", snowing })
       break
-    case "REQ_COMPLETED_REQUEST":
-      sendTabsMessage({ type: "REQUEST_SEARCH_COMPLETED", request: {} })
+    case "REQ_COMPLETED_REQUEST_STATUS":
+      sendTabsMessage({
+        type: "REQUEST_SEARCH_COMPLETED_STATUS",
+        status: Object.keys(tabStorage).length > 0,
+      })
       break
     default:
       break

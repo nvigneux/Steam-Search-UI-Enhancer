@@ -103,11 +103,10 @@ let snowing = false
 
 // Runtime
 chrome.runtime.sendMessage({ type: "REQ_SNOW_STATUS" })
-chrome.runtime.sendMessage({ type: "REQ_COMPLETED_REQUEST" })
+chrome.runtime.sendMessage({ type: "REQ_COMPLETED_REQUEST_STATUS" })
 
 // onMessage
 chrome.runtime.onMessage.addListener((message) => {
-  console.log(message)
   switch (message.type) {
     case "SNOW_STATUS":
       if (message.snowing) {
@@ -116,13 +115,18 @@ chrome.runtime.onMessage.addListener((message) => {
         }
       }
 
-      if (!message.snowing) {
+      if (!message.snowing)
         snowflakesContainer.parentNode?.removeChild(snowflakesContainer)
-      }
+
       snowing = message.snowing
       break
     case "REQUEST_SEARCH_COMPLETED":
       applyRatingUi()
+      break
+    // first request is completed when page is not rendered
+    // so check if background already has completed request
+    case "REQUEST_SEARCH_COMPLETED_STATUS":
+      if (message.status) applyRatingUi()
       break
     default:
       break

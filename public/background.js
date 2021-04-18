@@ -83,6 +83,7 @@ chrome.tabs.onRemoved.addListener((tab) => {
  */
 
 let scoreUi = false
+let styleUi = false
 
 // Get locally stored value
 // chrome.storage.local.get("scoreUi", (res) => !!res.scoreUi)
@@ -92,6 +93,10 @@ chrome.storage.local.get("scoreUi", (res) => {
   scoreUi = !!res.scoreUi
 })
 
+chrome.storage.local.get("styleUi", (res) => {
+  styleUi = !!res.styleUi
+})
+
 // event reducer to send event to content.js
 // listen content and app.jsx
 chrome.runtime.onMessage.addListener((message) => {
@@ -99,10 +104,18 @@ chrome.runtime.onMessage.addListener((message) => {
     case "REQ_SCORE_UI_STATUS":
       sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
       break
+    case "REQ_STYLE_UI_STATUS":
+      sendTabsMessage({ type: "STYLE_UI_STATUS", styleUi })
+      break
     case "TOGGLE_SCORE_UI":
       scoreUi = message.scoreUi
       chrome.storage.local.set({ scoreUi })
       sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
+      break
+    case "TOGGLE_STYLE_UI":
+      styleUi = message.styleUi
+      chrome.storage.local.set({ styleUi })
+      sendTabsMessage({ type: "STYLE_UI_STATUS", styleUi })
       break
     case "REQ_COMPLETED_REQUEST_STATUS":
       sendTabsMessage({

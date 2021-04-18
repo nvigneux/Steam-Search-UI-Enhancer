@@ -29,5 +29,5 @@
 }
 
 .steam-better-ui-border {
-  border-right: 6px solid;
+  border-right: 6px solid !important;
 }

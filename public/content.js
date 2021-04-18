@@ -30,6 +30,7 @@ const deleteAttributes = (el, attrs) => {
 
 // Const init
 let scoreUi = false
+let styleUi = false
 
 /**
  *
@@ -82,10 +83,10 @@ const prependScoreUI = (row, { percent, reviews }) => {
 const prependStyleUI = (row, { percent, reviews }) => {
   row.classList.add("steam-better-ui-border")
   setAttributes(row, {
-    style: `border-color: ${reviewColor(
+    style: `border-right-color: ${reviewColor(
       Number(percent),
       Number(reviews.replace(/,/g, ""))
-    )}`,
+    )} !important`,
   })
 }
 
@@ -112,6 +113,8 @@ const removeStyleUI = (row) => {
   deleteAttributes(row, ["style"])
   row.classList.remove("steam-better-ui-border")
 }
+
+// APPLY / REMOVE
 
 /**
  *
@@ -199,24 +202,37 @@ const removeBetterStyleUI = (msgStyleUi) => {
 
 // Runtime
 chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
+chrome.runtime.sendMessage({ type: "REQ_STYLE_UI_STATUS" })
 chrome.runtime.sendMessage({ type: "REQ_COMPLETED_REQUEST_STATUS" })
 
 // onMessage
 chrome.runtime.onMessage.addListener((message) => {
   switch (message.type) {
     case "SCORE_UI_STATUS":
+      console.log("SCORE_UI_STATUS")
       if (message.scoreUi) if (!scoreUi) applyBetterScoreUI(message.scoreUi)
       if (!message.scoreUi) if (scoreUi) removeBetterScoreUI(message.scoreUi)
 
       scoreUi = message.scoreUi
       break
+    case "STYLE_UI_STATUS":
+      console.log("STYLE_UI_STATUS")
+      if (message.styleUi) if (!styleUi) applyBetterStyleUI(message.styleUi)
+      if (!message.styleUi) if (styleUi) removeBetterStyleUI(message.styleUi)
+
+      styleUi = message.styleUi
+      break
     case "REQUEST_SEARCH_COMPLETED":
-      // if (scoreUi) applyRatingUi()
+      console.log("REQUEST_SEARCH_COMPLETED")
+      if (scoreUi) applyBetterScoreUI(scoreUi)
+      if (styleUi) applyBetterStyleUI(styleUi)
       break
     // first request is completed when page is not rendered
     // so check if background already has completed request
     case "REQUEST_SEARCH_COMPLETED_STATUS":
-      // if (message.status) applyRatingUi()
+      console.log("REQUEST_SEARCH_COMPLETED_STATUS")
+      if (scoreUi) applyBetterScoreUI(scoreUi)
+      if (styleUi) applyBetterStyleUI(styleUi)
       break
     default:
       break

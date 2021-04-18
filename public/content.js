@@ -1,50 +1,41 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 const regexNumber = /(\d{0,3},)?(\d{3},)?(\d+)/g
+
+/**
+ *
+ * @param {node} el
+ * @param {object} attrs
+ */
 const setAttributes = (el, attrs) => {
   Object.keys(attrs).forEach((key) => {
     if (key && attrs[key]) el.setAttribute(key, attrs[key])
   })
 }
-/**
- * Snowing
- */
-const body = document.getElementsByTagName("body")
-const snowflakesContainer = document.createElement("div")
-snowflakesContainer.className = "snowflakes"
-snowflakesContainer.setAttribute("aria-hidden", "true")
 
-const snowflake = document.createElement("div")
-snowflake.className = "snowflake"
-snowflake.innerHTML = "❆"
-for (let i = 0; i < 12; i += 1) {
-  snowflakesContainer.appendChild(snowflake.cloneNode(true))
+/**
+ *
+ * @param {node} el
+ * @param {array} attrs
+ */
+const deleteAttributes = (el, attrs) => {
+  attrs.forEach((key) => {
+    if (key) el.removeAttribute(key)
+  })
 }
 
 /**
  * Steam rating UI
  */
 
-const applyBetterScoreUi = (row, { percent, reviews }) => {
-  const div = document.createElement("div")
-  const container = row.querySelector(
-    ".search_reviewscore.responsive_secondrow"
-  )
-  const img = row.querySelector(".search_capsule img")
+// Const init
+let scoreUi = false
 
-  setAttributes(container, {
-    style: `position:relative;`,
-  })
-  setAttributes(img, {
-    style: "position:relative;transform: translate(0, 15%);",
-  })
-  setAttributes(div, {
-    style:
-      "font-size:10px;position:absolute;width:max-content;left:21%;bottom:-10px;",
-  })
-
-  div.innerHTML += `${percent}% - ${reviews} reviews`
-  container.appendChild(div)
-}
-
+/**
+ *
+ * @param {number} percent
+ * @param {number} reviews
+ */
 const reviewColor = (percent, reviews) => {
   if (percent <= 100 && percent >= 95) return "var(--color-positive-1)"
   if (percent <= 95 && percent >= 85) return "var(--color-positive-2)"
@@ -60,34 +51,110 @@ const reviewColor = (percent, reviews) => {
     return "var(--color-negative-1"
 }
 
-const applyBetterStyle = (row, { percent, reviews }) => {
+/**
+ *
+ * @param {node} row
+ * @param {{percent: string, reviews: string}} stats
+ */
+const betterScoreUi = (row, { percent, reviews }) => {
+  const div = document.createElement("div")
+  const container = row.querySelector(
+    ".search_reviewscore.responsive_secondrow"
+  )
+  const img = row.querySelector(".search_capsule img")
+  setAttributes(container, {
+    style: `position:relative;`,
+  })
+  setAttributes(img, {
+    style: "position:relative;transform: translate(0, 15%);",
+  })
+
+  div.className = "steam-better-ui-score-ui"
+  div.innerHTML += `${percent}% - ${reviews} reviews`
+  container.appendChild(div)
+}
+
+/**
+ *
+ * @param {node} row
+ * @param {{percent: string, reviews: string}} stats
+ */
+const betterStyle = (row, { percent, reviews }) => {
+  row.classList.add("steam-better-ui-border")
   setAttributes(row, {
-    style: `border-right: 6px solid ${reviewColor(
+    style: `border-color: ${reviewColor(
       Number(percent),
       Number(reviews.replace(/,/g, ""))
     )}`,
   })
 }
 
-const applyRatingUi = () => {
+/**
+ *
+ * @param {node} row
+ */
+const removeScoreUi = (row) => {
+  const container = row.querySelector(
+    ".search_reviewscore.responsive_secondrow"
+  )
+  const img = row.querySelector(".search_capsule img")
+  row.querySelector(".steam-better-ui-score-ui").remove()
+  deleteAttributes(container, ["style"])
+  deleteAttributes(img, ["style"])
+  row.classList.remove("steam-better-ui-height")
+}
+
+/**
+ *
+ * @param {node} row
+ */
+const removeStyle = (row) => {
+  deleteAttributes(row, ["style"])
+  row.classList.remove("steam-better-ui-border")
+}
+
+/**
+ *
+ */
+const applyBetterScoreUi = (msgScoreUi) => {
   const searchRows = [
-    ...document.querySelectorAll(".search_result_row:not(.steam-better-ui)"),
+    ...document.querySelectorAll(
+      ".search_result_row:not(.steam-better-ui-height)"
+    ),
   ]
   searchRows.map((row) => {
-    row.classList.add("steam-better-ui")
     const review = row.querySelector(".search_review_summary")
     if (review && review.hasAttribute("data-tooltip-html")) {
       const reviewStats = review.dataset.tooltipHtml.match(regexNumber)
-
       if (reviewStats && reviewStats.length) {
-        if (true)
-          applyBetterScoreUi(row, {
+        if (msgScoreUi) {
+          row.classList.add("steam-better-ui-height")
+          betterScoreUi(row, {
             percent: reviewStats[0],
             reviews: reviewStats[1],
           })
+        }
+      }
+    }
+  })
+}
 
-        if (true)
-          applyBetterStyle(row, {
+/**
+ *
+ */
+const applyBetterStyle = (msgStyle) => {
+  const searchRows = [
+    ...document.querySelectorAll(
+      ".search_result_row:not(.steam-better-ui-border)"
+    ),
+  ]
+  searchRows.map((row) => {
+    const review = row.querySelector(".search_review_summary")
+    if (review && review.hasAttribute("data-tooltip-html")) {
+      const reviewStats = review.dataset.tooltipHtml.match(regexNumber)
+      if (reviewStats && reviewStats.length) {
+        if (msgStyle)
+          betterStyle(row, {
             percent: reviewStats[0],
             reviews: reviewStats[1],
           })
@@ -96,37 +163,72 @@ const applyRatingUi = () => {
   })
 }
 
-// const applyBetterStyle = (rows) => {}
+/**
+ *
+ */
+const removeBetterScoreUi = (msgScoreUi) => {
+  const searchRows = [
+    ...document.querySelectorAll(".search_result_row.steam-better-ui-height"),
+  ]
+  searchRows.map((row) => {
+    const review = row.querySelector(".search_review_summary")
+    if (review && review.hasAttribute("data-tooltip-html")) {
+      if (!msgScoreUi) {
+        removeScoreUi(row)
+      }
+    }
+  })
+}
 
-// Const init
-let snowing = false
+/**
+ *
+ */
+const removeBetterStyleUi = (msgStyleUi) => {
+  const searchRows = [
+    ...document.querySelectorAll(".search_result_row.steam-better-ui-border"),
+  ]
+  searchRows.map((row) => {
+    const review = row.querySelector(".search_review_summary")
+    if (review && review.hasAttribute("data-tooltip-html")) {
+      if (!msgStyleUi) {
+        removeStyle(row)
+      }
+    }
+  })
+}
 
 // Runtime
-chrome.runtime.sendMessage({ type: "REQ_SNOW_STATUS" })
+chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
 chrome.runtime.sendMessage({ type: "REQ_COMPLETED_REQUEST_STATUS" })
 
 // onMessage
 chrome.runtime.onMessage.addListener((message) => {
   switch (message.type) {
-    case "SNOW_STATUS":
-      if (message.snowing) {
-        if (!snowing) {
-          body[0]?.prepend(snowflakesContainer)
+    case "SCORE_UI_STATUS":
+      if (message.scoreUi) {
+        // if message.scoreUi is false and scoreUi is false
+        // if scoreUi is true doesnt need to add to dom because is already active
+        if (!scoreUi) {
+          // add in dom
+          applyBetterScoreUi(message.scoreUi)
+        }
+      }
+      if (!message.scoreUi) {
+        // remove in dom
+        if (scoreUi) {
+          removeBetterScoreUi(message.scoreUi)
         }
       }
 
-      if (!message.snowing)
-        snowflakesContainer.parentNode?.removeChild(snowflakesContainer)
-
-      snowing = message.snowing
+      scoreUi = message.scoreUi
       break
     case "REQUEST_SEARCH_COMPLETED":
-      applyRatingUi()
+      // if (scoreUi) applyRatingUi()
       break
     // first request is completed when page is not rendered
     // so check if background already has completed request
     case "REQUEST_SEARCH_COMPLETED_STATUS":
-      if (message.status) applyRatingUi()
+      // if (message.status) applyRatingUi()
       break
     default:
       break

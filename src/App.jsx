@@ -8,11 +8,14 @@ import "./App.css"
 import Button from "./components/atoms/Button"
 
 function App() {
-  const [url, setUrl] = useState("")
-  const [snowing, setSnowing] = React.useState(true)
+  // const [url, setUrl] = useState("")
+  const [scoreUi, setScoreUi] = useState(true)
 
-  const handleSnowingEvent = () => {
-    chrome.runtime.sendMessage({ type: "TOGGLE_SNOW", snowing: !snowing })
+  /**
+   *
+   */
+  const handleScoreEvent = () => {
+    chrome.runtime.sendMessage({ type: "TOGGLE_SCORE_UI", scoreUi: !scoreUi })
   }
 
   /**
@@ -20,20 +23,20 @@ function App() {
    */
   useEffect(() => {
     // Get url for the active tab
-    const queryInfo = { active: true, lastFocusedWindow: true }
-    chrome.tabs &&
-      chrome.tabs.query(queryInfo, (tabs) => {
-        const { url } = tabs[0]
-        setUrl(url)
-      })
+    // const queryInfo = { active: true, lastFocusedWindow: true }
+    // chrome.tabs &&
+    //   chrome.tabs.query(queryInfo, (tabs) => {
+    //     const { url } = tabs[0]
+    //     setUrl(url)
+    //   })
 
-    // request actual status for snowing
-    chrome.runtime.sendMessage({ type: "REQ_SNOW_STATUS" })
+    // request actual status for scoreUi
+    chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
     // listen event of reducer in background.js
     chrome.runtime.onMessage.addListener((message) => {
       switch (message.type) {
-        case "SNOW_STATUS":
-          setSnowing(message.snowing)
+        case "SCORE_UI_STATUS":
+          setScoreUi(message.scoreUi)
           break
         default:
           break
@@ -45,18 +48,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <p>URL:</p>
-        <p>{url}</p>
-        <Button
-          color="grey"
-          type="button"
-          size="s"
-          onClick={handleSnowingEvent}
-        >
-          {snowing ? "Disable the snow 🥶" : "Let it snow! ❄️"}
+        <p>{`${scoreUi}`}</p>
+        <Button color="grey" type="button" size="s" onClick={handleScoreEvent}>
+          {scoreUi ? "Disable Score UI" : "Score UI"}
         </Button>
       </header>
     </div>

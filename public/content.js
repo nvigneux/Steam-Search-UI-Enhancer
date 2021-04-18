@@ -56,7 +56,7 @@ const reviewColor = (percent, reviews) => {
  * @param {node} row
  * @param {{percent: string, reviews: string}} stats
  */
-const betterScoreUi = (row, { percent, reviews }) => {
+const prependScoreUI = (row, { percent, reviews }) => {
   const div = document.createElement("div")
   const container = row.querySelector(
     ".search_reviewscore.responsive_secondrow"
@@ -79,7 +79,7 @@ const betterScoreUi = (row, { percent, reviews }) => {
  * @param {node} row
  * @param {{percent: string, reviews: string}} stats
  */
-const betterStyle = (row, { percent, reviews }) => {
+const prependStyleUI = (row, { percent, reviews }) => {
   row.classList.add("steam-better-ui-border")
   setAttributes(row, {
     style: `border-color: ${reviewColor(
@@ -93,7 +93,7 @@ const betterStyle = (row, { percent, reviews }) => {
  *
  * @param {node} row
  */
-const removeScoreUi = (row) => {
+const removeScoreUI = (row) => {
   const container = row.querySelector(
     ".search_reviewscore.responsive_secondrow"
   )
@@ -108,7 +108,7 @@ const removeScoreUi = (row) => {
  *
  * @param {node} row
  */
-const removeStyle = (row) => {
+const removeStyleUI = (row) => {
   deleteAttributes(row, ["style"])
   row.classList.remove("steam-better-ui-border")
 }
@@ -116,7 +116,7 @@ const removeStyle = (row) => {
 /**
  *
  */
-const applyBetterScoreUi = (msgScoreUi) => {
+const applyBetterScoreUI = (msgScoreUi) => {
   const searchRows = [
     ...document.querySelectorAll(
       ".search_result_row:not(.steam-better-ui-height)"
@@ -129,7 +129,7 @@ const applyBetterScoreUi = (msgScoreUi) => {
       if (reviewStats && reviewStats.length) {
         if (msgScoreUi) {
           row.classList.add("steam-better-ui-height")
-          betterScoreUi(row, {
+          prependScoreUI(row, {
             percent: reviewStats[0],
             reviews: reviewStats[1],
           })
@@ -142,7 +142,7 @@ const applyBetterScoreUi = (msgScoreUi) => {
 /**
  *
  */
-const applyBetterStyle = (msgStyle) => {
+const applyBetterStyleUI = (msgStyle) => {
   const searchRows = [
     ...document.querySelectorAll(
       ".search_result_row:not(.steam-better-ui-border)"
@@ -154,7 +154,7 @@ const applyBetterStyle = (msgStyle) => {
       const reviewStats = review.dataset.tooltipHtml.match(regexNumber)
       if (reviewStats && reviewStats.length) {
         if (msgStyle)
-          betterStyle(row, {
+          prependStyleUI(row, {
             percent: reviewStats[0],
             reviews: reviewStats[1],
           })
@@ -166,7 +166,7 @@ const applyBetterStyle = (msgStyle) => {
 /**
  *
  */
-const removeBetterScoreUi = (msgScoreUi) => {
+const removeBetterScoreUI = (msgScoreUi) => {
   const searchRows = [
     ...document.querySelectorAll(".search_result_row.steam-better-ui-height"),
   ]
@@ -174,7 +174,7 @@ const removeBetterScoreUi = (msgScoreUi) => {
     const review = row.querySelector(".search_review_summary")
     if (review && review.hasAttribute("data-tooltip-html")) {
       if (!msgScoreUi) {
-        removeScoreUi(row)
+        removeScoreUI(row)
       }
     }
   })
@@ -183,7 +183,7 @@ const removeBetterScoreUi = (msgScoreUi) => {
 /**
  *
  */
-const removeBetterStyleUi = (msgStyleUi) => {
+const removeBetterStyleUI = (msgStyleUi) => {
   const searchRows = [
     ...document.querySelectorAll(".search_result_row.steam-better-ui-border"),
   ]
@@ -191,7 +191,7 @@ const removeBetterStyleUi = (msgStyleUi) => {
     const review = row.querySelector(".search_review_summary")
     if (review && review.hasAttribute("data-tooltip-html")) {
       if (!msgStyleUi) {
-        removeStyle(row)
+        removeStyleUI(row)
       }
     }
   })
@@ -205,20 +205,8 @@ chrome.runtime.sendMessage({ type: "REQ_COMPLETED_REQUEST_STATUS" })
 chrome.runtime.onMessage.addListener((message) => {
   switch (message.type) {
     case "SCORE_UI_STATUS":
-      if (message.scoreUi) {
-        // if message.scoreUi is false and scoreUi is false
-        // if scoreUi is true doesnt need to add to dom because is already active
-        if (!scoreUi) {
-          // add in dom
-          applyBetterScoreUi(message.scoreUi)
-        }
-      }
-      if (!message.scoreUi) {
-        // remove in dom
-        if (scoreUi) {
-          removeBetterScoreUi(message.scoreUi)
-        }
-      }
+      if (message.scoreUi) if (!scoreUi) applyBetterScoreUI(message.scoreUi)
+      if (!message.scoreUi) if (scoreUi) removeBetterScoreUI(message.scoreUi)
 
       scoreUi = message.scoreUi
       break

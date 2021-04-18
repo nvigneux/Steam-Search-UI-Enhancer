@@ -82,35 +82,27 @@ chrome.tabs.onRemoved.addListener((tab) => {
  * Snowing
  */
 
-// dispatch snow status
-// const sendSnowStatus = (snowing) => {
-//   const message = { type: "SNOW_STATUS", snowing }
-//   chrome.runtime.sendMessage(message)
-
-//   // send message to every active tab
-//   chrome.tabs.query({}, (tabs) => {
-//     tabs.forEach((tab) => {
-//       if (tab.id) chrome.tabs.sendMessage(tab.id, message)
-//     })
-//   })
-// }
-
-let snowing = false
+let scoreUi = false
 
 // Get locally stored value
-chrome.storage.local.get("snowing", (res) => !!res.snowing)
+// chrome.storage.local.get("scoreUi", (res) => !!res.scoreUi)
+
+// Get locally stored value
+chrome.storage.local.get("scoreUi", (res) => {
+  scoreUi = !!res.scoreUi
+})
 
 // event reducer to send event to content.js
 // listen content and app.jsx
 chrome.runtime.onMessage.addListener((message) => {
   switch (message.type) {
-    case "REQ_SNOW_STATUS":
-      sendTabsMessage({ type: "SNOW_STATUS", snowing })
+    case "REQ_SCORE_UI_STATUS":
+      sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
       break
-    case "TOGGLE_SNOW":
-      snowing = message.snowing
-      chrome.storage.local.set({ snowing })
-      sendTabsMessage({ type: "SNOW_STATUS", snowing })
+    case "TOGGLE_SCORE_UI":
+      scoreUi = message.scoreUi
+      chrome.storage.local.set({ scoreUi })
+      sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
       break
     case "REQ_COMPLETED_REQUEST_STATUS":
       sendTabsMessage({

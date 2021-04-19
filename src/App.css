@@ -1,5 +1,5 @@
 .sbui {
-  width: 200px;
+  width: 260px;
   background: linear-gradient(
     to bottom,
     var(--color-primary-500),
@@ -46,4 +46,10 @@
   background: var(--color-primary-300);
   transform: translate(-50%, 0);
   left: 50%;
+}
+
+.sbui-cat__button {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--padding-m) var(--padding-m) 0;
 }

@@ -218,7 +218,7 @@
 .btn.transparent {
   color: var(--color-black);
   background-color: transparent;
-  padding: 0;
+  padding-right: 0;
 }
 .btn.transparent:hover {
   color: var(--color-grey-500);

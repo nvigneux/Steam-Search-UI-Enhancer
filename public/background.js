@@ -85,7 +85,7 @@ chrome.tabs.onRemoved.addListener((tab) => {
 let scoreUi = false
 let styleUi = false
 let colorsUi = {
-  positive: {
+  favorable: {
     1: { color: "#68b04a", label: "> 95%" },
     2: { color: "#4b83b3", label: "> 85%" },
     3: { color: "#a947c7", label: "> 80%" },

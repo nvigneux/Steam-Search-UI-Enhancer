@@ -39,10 +39,10 @@ let colorsUi = {}
  * @param {number} reviews
  */
 const reviewColor = (percent, reviews) => {
-  if (percent <= 100 && percent >= 95) return "var(--color-positive-1)"
-  if (percent <= 95 && percent >= 85) return "var(--color-positive-2)"
-  if (percent <= 85 && percent >= 80) return "var(--color-positive-3)"
-  if (percent <= 79 && percent >= 70) return "var(--color-positive-4)"
+  if (percent <= 100 && percent >= 95) return "var(--color-favorable-1)"
+  if (percent <= 95 && percent >= 85) return "var(--color-favorable-2)"
+  if (percent <= 85 && percent >= 80) return "var(--color-favorable-3)"
+  if (percent <= 79 && percent >= 70) return "var(--color-favorable-4)"
   if (percent <= 69 && percent >= 40) return "var(--color-mixed-1)"
   if (percent <= 39 && percent >= 20) return "var(--color-negative-4)"
   if (percent <= 19 && percent >= 0 && reviews >= 500000)
@@ -210,7 +210,18 @@ const removeBetterStyleUI = (msgStyleUi) => {
  * @param {*} colors
  */
 const applyColorsUI = (colors) => {
-  console.log(colors)
+  const root = document.documentElement
+
+  if (colors && Object.keys(colors).length > 0) {
+    Object.keys(colors).map((colorName) =>
+      Object.keys(colors[colorName]).map((colorNum) =>
+        root.style.setProperty(
+          `--color-${colorName}-${colorNum}`,
+          colors[colorName][colorNum].color
+        )
+      )
+    )
+  }
 }
 
 // Runtime

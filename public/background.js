@@ -93,10 +93,10 @@ let colorsUi = {
   },
   mixed: { 1: { color: "#b8b8b8", label: "> 40%" } },
   negative: {
-    1: { color: "#68b04a", label: "> 20%" },
-    2: { color: "#4b83b3", label: "< 19% + 500000 reviews" },
-    3: { color: "#a947c7", label: "< 19% + 50000 reviews" },
-    4: { color: "#714cc7", label: "< 19% + 5000 reviews" },
+    1: { color: "#c5c53e", label: "> 20%" },
+    2: { color: "#c4853d", label: "< 19% + 500000 reviews" },
+    3: { color: "#b65f4a", label: "< 19% + 50000 reviews" },
+    4: { color: "#cc4848", label: "< 19% + 5000 reviews" },
   },
 }
 

@@ -84,6 +84,21 @@ chrome.tabs.onRemoved.addListener((tab) => {
 
 let scoreUi = false
 let styleUi = false
+let colorsUi = {
+  positive: {
+    1: { color: "#68b04a", label: "> 95%" },
+    2: { color: "#4b83b3", label: "> 85%" },
+    3: { color: "#a947c7", label: "> 80%" },
+    4: { color: "#714cc7", label: "> 70%" },
+  },
+  mixed: { 1: { color: "#b8b8b8", label: "> 40%" } },
+  negative: {
+    1: { color: "#68b04a", label: "> 20%" },
+    2: { color: "#4b83b3", label: "< 19% + 500000 reviews" },
+    3: { color: "#a947c7", label: "< 19% + 50000 reviews" },
+    4: { color: "#714cc7", label: "< 19% + 5000 reviews" },
+  },
+}
 
 // Get locally stored value
 // chrome.storage.local.get("scoreUi", (res) => !!res.scoreUi)
@@ -97,32 +112,48 @@ chrome.storage.local.get("styleUi", (res) => {
   styleUi = !!res.styleUi
 })
 
+chrome.storage.local.get("colorsUi", (res) => {
+  colorsUi = res.colorsUi || colorsUi
+})
+
 // event reducer to send event to content.js
 // listen content and app.jsx
 chrome.runtime.onMessage.addListener((message) => {
   switch (message.type) {
-    case "REQ_SCORE_UI_STATUS":
-      sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
-      break
-    case "REQ_STYLE_UI_STATUS":
-      sendTabsMessage({ type: "STYLE_UI_STATUS", styleUi })
-      break
-    case "TOGGLE_SCORE_UI":
-      scoreUi = message.scoreUi
-      chrome.storage.local.set({ scoreUi })
-      sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
-      break
-    case "TOGGLE_STYLE_UI":
-      styleUi = message.styleUi
-      chrome.storage.local.set({ styleUi })
-      sendTabsMessage({ type: "STYLE_UI_STATUS", styleUi })
-      break
     case "REQ_COMPLETED_REQUEST_STATUS":
       sendTabsMessage({
         type: "REQUEST_SEARCH_COMPLETED_STATUS",
         status: Object.keys(tabStorage).length > 0,
       })
       break
+
+    case "REQ_SCORE_UI_STATUS":
+      sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
+      break
+    case "TOGGLE_SCORE_UI":
+      scoreUi = message.scoreUi
+      chrome.storage.local.set({ scoreUi })
+      sendTabsMessage({ type: "SCORE_UI_STATUS", scoreUi })
+      break
+
+    case "REQ_STYLE_UI_STATUS":
+      sendTabsMessage({ type: "STYLE_UI_STATUS", styleUi })
+      break
+    case "TOGGLE_STYLE_UI":
+      styleUi = message.styleUi
+      chrome.storage.local.set({ styleUi })
+      sendTabsMessage({ type: "STYLE_UI_STATUS", styleUi })
+      break
+
+    case "REQ_COLORS_UI_STATUS":
+      sendTabsMessage({ type: "COLORS_UI_STATUS", colorsUi })
+      break
+    case "SET_COLORS_UI":
+      colorsUi = message.colorsUi
+      chrome.storage.local.set({ colorsUi })
+      sendTabsMessage({ type: "COLORS_UI_STATUS", colorsUi })
+      break
+
     default:
       break
   }

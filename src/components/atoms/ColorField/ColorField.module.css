@@ -1,0 +1,27 @@
+.colorfield {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.colorfieldInputColor {
+  border: 0;
+  padding: 0;
+  margin: var(--margin-xs) var(--margin-s);
+  width: 21px;
+  height: 22px;
+  background-color: transparent;
+  border-radius: var(--rad-8);
+  cursor: pointer;
+}
+.colorfieldInputLabel {
+  color: var(--color-white);
+  font-size: var(--fs-s);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.colorfieldInputLabel:hover {
+  color: var(--color-grey-200);
+}
+.colorfieldInputLabel:active {
+  color: var(--color-grey-500);
+}

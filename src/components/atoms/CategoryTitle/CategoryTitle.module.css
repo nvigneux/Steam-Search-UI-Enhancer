@@ -1,0 +1,16 @@
+.categoryTitle {
+  display: flex;
+  flex-flow: column wrap;
+}
+.categoryTitleHead {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--padding-xs) var(--padding-s);
+}
+.categoryTitleTitle {
+  font-size: var(--fs-m);
+  font-weight: 400;
+  color: var(--color-white);
+}

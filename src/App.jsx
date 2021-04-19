@@ -1,16 +1,21 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 import React, { useState, useEffect } from "react"
-import logo from "./logo.svg"
-import "./App.css"
 
 // Components
+import ToggleSwitch from "./components/atoms/ToggleSwitch"
+import ColorField from "./components/atoms/ColorField"
 import Button from "./components/atoms/Button"
+import CategoryTitle from "./components/atoms/CategoryTitle"
+
+// Style
+import "./App.css"
 
 function App() {
   // const [url, setUrl] = useState("")
-  const [scoreUi, setScoreUi] = useState(true)
-  const [styleUi, setStyleUi] = useState(true)
+  const [scoreUi, setScoreUi] = useState(false)
+  const [styleUi, setStyleUi] = useState(false)
+  const [colorsUi, setColorsUi] = useState({})
 
   /**
    *
@@ -18,11 +23,39 @@ function App() {
   const handleScoreEvent = () => {
     chrome.runtime.sendMessage({ type: "TOGGLE_SCORE_UI", scoreUi: !scoreUi })
   }
+
   /**
    *
    */
   const handleStyleEvent = () => {
     chrome.runtime.sendMessage({ type: "TOGGLE_STYLE_UI", styleUi: !styleUi })
+  }
+
+  /**
+   *
+   */
+  const handleColorsUiEvent = () => {
+    chrome.runtime.sendMessage({
+      type: "SET_COLORS_UI",
+      colorsUi,
+    })
+  }
+
+  /**
+   *
+   * @param {*} color
+   * @param {*} name
+   */
+  const handleColorsUi = (color, name) => {
+    const nameColor = name.split("-")
+    const newColorsUi = {
+      ...colorsUi,
+      [nameColor[0]]: {
+        ...colorsUi[nameColor[0]],
+        [nameColor[1]]: { ...colorsUi[nameColor[0]][nameColor[1]], color },
+      },
+    }
+    setColorsUi(newColorsUi)
   }
 
   /**
@@ -37,10 +70,12 @@ function App() {
     //     setUrl(url)
     //   })
 
-    // request actual status for scoreUi
+    // request actual status
     chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
     chrome.runtime.sendMessage({ type: "REQ_STYLE_UI_STATUS" })
-    // listen event of reducer in background.js
+    chrome.runtime.sendMessage({ type: "REQ_COLORS_UI_STATUS" })
+
+    // // listen event of reducer in background.js
     chrome.runtime.onMessage.addListener((message) => {
       switch (message.type) {
         case "SCORE_UI_STATUS":
@@ -49,6 +84,9 @@ function App() {
         case "STYLE_UI_STATUS":
           setStyleUi(message.styleUi)
           break
+        case "COLORS_UI_STATUS":
+          setColorsUi(message.colorsUi)
+          break
         default:
           break
       }
@@ -56,19 +94,55 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>URL:</p>
-        <p>{`${scoreUi}`}</p>
-        <p>{`${styleUi}`}</p>
-        <Button color="grey" type="button" size="s" onClick={handleScoreEvent}>
-          {scoreUi ? "Disable Score UI" : "Score UI"}
-        </Button>
-        <Button color="grey" type="button" size="s" onClick={handleStyleEvent}>
-          {styleUi ? "Disable Style UI" : "Style UI"}
-        </Button>
-      </header>
+    <div className="sbui">
+      <main className="sbui-main">
+        <div className="sbui-cat">
+          <CategoryTitle title="Better Score UI">
+            <ToggleSwitch
+              id="scoreUi"
+              name="scoreUi"
+              onChange={handleScoreEvent}
+              toggled={scoreUi}
+            />
+          </CategoryTitle>
+        </div>
+        <span className="sbui-separator" />
+        <div className="sbui-cat">
+          <CategoryTitle title="Better Style UI">
+            <ToggleSwitch
+              id="styleUi"
+              name="styleUi"
+              onChange={handleStyleEvent}
+              toggled={styleUi}
+            />
+          </CategoryTitle>
+          <div className="sbui-cat__main">
+            {colorsUi && Object.keys(colorsUi).length > 0
+              ? Object.keys(colorsUi).map((colorName) => (
+                  <div key={colorName} className="sbui-cat__color">
+                    {Object.keys(colorsUi[colorName]).map((colorNum) => (
+                      <ColorField
+                        key={`${colorName}-${colorNum}`}
+                        name={`${colorName}-${colorNum}`}
+                        value={colorsUi[colorName][colorNum].color}
+                        label={colorsUi[colorName][colorNum].label}
+                        onChange={handleColorsUi}
+                      />
+                    ))}
+                  </div>
+                ))
+              : null}
+          </div>
+          <Button
+            onClick={handleColorsUiEvent}
+            color="primary"
+            type="button"
+            size="s"
+          >
+            Save colors
+          </Button>
+        </div>
+      </main>
     </div>
   )
 }

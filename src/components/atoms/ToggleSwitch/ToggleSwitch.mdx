@@ -1,0 +1,69 @@
+---
+name: ToggleSwitch
+menu: 1. Atoms
+---
+
+import { useState } from "react"
+import { Playground, Props } from "docz"
+import ToggleSwitch from "./ToggleSwitch.jsx"
+
+# ToggleSwitch
+
+## Utilisation
+
+### Simple
+
+<Playground>
+  {() => {
+    const [isToggled, toggle] = useState(true)
+    return (
+      <ToggleSwitch
+        id="toggle1"
+        name="toggle1"
+        onChange={() => toggle(!isToggled)}
+        toggled={isToggled}
+      />
+    )
+  }}
+</Playground>
+
+### Disabled
+
+<Playground>
+  {() => {
+    const [isToggled, toggle] = useState(true)
+    return (
+      <ToggleSwitch
+        id="toggle2"
+        name="toggle2"
+        disabled={true}
+        onChange={() => toggle(!isToggled)}
+        toggled={isToggled}
+      />
+    )
+  }}
+</Playground>
+
+### Label
+
+<Playground>
+  {() => {
+    const [isToggled, toggle] = useState(true)
+    return (
+      <div>
+        <ToggleSwitch
+          id="toggle3"
+          name="toggle3"
+          onChange={() => toggle(!isToggled)}
+          toggled={isToggled}
+          toggledLabel="OUI"
+          untoggledLabel="NON"
+        />
+      </div>
+    )
+  }}
+</Playground>
+
+## Props
+
+<Props of={ToggleSwitch} />

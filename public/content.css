@@ -2,15 +2,15 @@
 
 /* Steam Better UI */
 :root {
-  --color-positive-1: rgb(104, 176, 74);
-  --color-positive-2: rgb(75, 131, 179);
-  --color-positive-3: rgb(169, 71, 199);
-  --color-positive-4: rgb(113, 76, 199);
-  --color-mixed-1: rgb(184, 184, 184);
-  --color-negative-1: rgb(197, 197, 62);
-  --color-negative-2: rgb(196, 133, 61);
-  --color-negative-3: rgb(182, 95, 74);
-  --color-negative-4: rgb(204, 72, 72);
+  --color-positive-1: #68b04a;
+  --color-positive-2: #4b83b3;
+  --color-positive-3: #a947c7;
+  --color-positive-4: #714cc7;
+  --color-mixed-1: #b8b8b8;
+  --color-negative-1: #c5c53e;
+  --color-negative-2: #c4853d;
+  --color-negative-3: #b65f4a;
+  --color-negative-4: #cc4848;
 }
 
 .steam-better-ui-height {

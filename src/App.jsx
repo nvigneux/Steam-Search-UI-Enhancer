@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-shadow */
 import React, { useState, useEffect } from "react"
 
 // Components
@@ -8,53 +5,37 @@ import ToggleSwitch from "./components/atoms/ToggleSwitch"
 import ColorField from "./components/atoms/ColorField"
 import Button from "./components/atoms/Button"
 import CategoryTitle from "./components/atoms/CategoryTitle"
+import Picto from "./components/atoms/Picto/Picto"
 
 // Style
 import "./App.css"
-import Picto from "./components/atoms/Picto/Picto"
 
 function App() {
   const [toggled, toggleColors] = useState(false)
 
-  // const [url, setUrl] = useState("")
   const [scoreUi, setScoreUi] = useState(false)
   const [styleUi, setStyleUi] = useState(false)
-  // const [colorsUi, setColorsUi] = useState({})
-  const [colorsUi, setColorsUi] = useState({
-    favorable: {
-      1: { color: "#68b04a", label: "> 95%" },
-      2: { color: "#4b83b3", label: "> 85%" },
-      3: { color: "#a947c7", label: "> 80%" },
-      4: { color: "#714cc7", label: "> 70%" },
-    },
-    mixed: { 1: { color: "#b8b8b8", label: "> 40%" } },
-    negative: {
-      1: { color: "#68b04a", label: "> 20%" },
-      2: { color: "#4b83b3", label: "< 19% + 500000 reviews" },
-      3: { color: "#a947c7", label: "< 19% + 50000 reviews" },
-      4: { color: "#714cc7", label: "< 19% + 5000 reviews" },
-    },
-  })
+  const [colorsUi, setColorsUi] = useState({})
 
   /**
    *
    */
   const handleScoreEvent = () => {
-    // chrome.runtime.sendMessage({ type: "TOGGLE_SCORE_UI", scoreUi: !scoreUi })
+    chrome.runtime.sendMessage({ type: "TOGGLE_SCORE_UI", scoreUi: !scoreUi })
   }
 
   /**
    *
    */
   const handleStyleEvent = () => {
-    // chrome.runtime.sendMessage({ type: "TOGGLE_STYLE_UI", styleUi: !styleUi })
+    chrome.runtime.sendMessage({ type: "TOGGLE_STYLE_UI", styleUi: !styleUi })
   }
 
   /**
    *
    */
   const handleColorsUiEvent = () => {
-    // chrome.runtime.sendMessage({ type: "SET_COLORS_UI", colorsUi })
+    chrome.runtime.sendMessage({ type: "SET_COLORS_UI", colorsUi })
   }
 
   /**
@@ -78,33 +59,26 @@ function App() {
    * Get current URL
    */
   useEffect(() => {
-    // Get url for the active tab
-    // const queryInfo = { active: true, lastFocusedWindow: true }
-    // chrome.tabs &&
-    //   chrome.tabs.query(queryInfo, (tabs) => {
-    //     const { url } = tabs[0]
-    //     setUrl(url)
-    //   })
     // request actual status
-    // chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
-    // chrome.runtime.sendMessage({ type: "REQ_STYLE_UI_STATUS" })
-    // chrome.runtime.sendMessage({ type: "REQ_COLORS_UI_STATUS" })
-    // // listen event of reducer in background.js
-    // chrome.runtime.onMessage.addListener((message) => {
-    //   switch (message.type) {
-    //     case "SCORE_UI_STATUS":
-    //       setScoreUi(message.scoreUi)
-    //       break
-    //     case "STYLE_UI_STATUS":
-    //       setStyleUi(message.styleUi)
-    //       break
-    //     case "COLORS_UI_STATUS":
-    //       setColorsUi(message.colorsUi)
-    //       break
-    //     default:
-    //       break
-    //   }
-    // })
+    chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
+    chrome.runtime.sendMessage({ type: "REQ_STYLE_UI_STATUS" })
+    chrome.runtime.sendMessage({ type: "REQ_COLORS_UI_STATUS" })
+    // listen event of reducer in background.js
+    chrome.runtime.onMessage.addListener((message) => {
+      switch (message.type) {
+        case "SCORE_UI_STATUS":
+          setScoreUi(message.scoreUi)
+          break
+        case "STYLE_UI_STATUS":
+          setStyleUi(message.styleUi)
+          break
+        case "COLORS_UI_STATUS":
+          setColorsUi(message.colorsUi)
+          break
+        default:
+          break
+      }
+    })
   }, [])
 
   return (

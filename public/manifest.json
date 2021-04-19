@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Chrome extension for better Steam UI rating",
+  "short_name": "Steam UI reviews",
+  "name": "Steam UI reviews",
+  "description": "Chrome extension for better Steam UI reviews",
   "version": "1.0",
   "manifest_version": 2,
   "icons": { "16": "logo192.png", "48": "logo192.png", "128": "logo192.png" },
@@ -9,18 +10,18 @@
     "activeTab",
     "storage",
     "webRequest",
-    "*://*.store.steampowered.com/"
+    "*://store.steampowered.com/"
   ],
   "browser_action": {
     "default_popup": "index.html",
-    "default_title": "Steam Better UI Rating"
+    "default_title": "Steam Better UI Reviews"
   },
   "background": {
     "scripts": ["background.js"]
   },
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
+      "matches": ["*://store.steampowered.com/*"],
       "js": ["content.js"],
       "css": ["content.css"]
     }

@@ -31,6 +31,7 @@ const deleteAttributes = (el, attrs) => {
 // Const init
 let scoreUi = false
 let styleUi = false
+let colorsUi = {}
 
 /**
  *
@@ -51,6 +52,8 @@ const reviewColor = (percent, reviews) => {
   if (percent <= 19 && percent >= 0 && reviews <= 50000 && reviews >= 1)
     return "var(--color-negative-1"
 }
+
+// Prepend / Remove DOM
 
 /**
  *
@@ -200,9 +203,20 @@ const removeBetterStyleUI = (msgStyleUi) => {
   })
 }
 
+// COLORS UI
+
+/**
+ *
+ * @param {*} colors
+ */
+const applyColorsUI = (colors) => {
+  console.log(colors)
+}
+
 // Runtime
 chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
 chrome.runtime.sendMessage({ type: "REQ_STYLE_UI_STATUS" })
+chrome.runtime.sendMessage({ type: "REQ_COLORS_UI_STATUS" })
 chrome.runtime.sendMessage({ type: "REQ_COMPLETED_REQUEST_STATUS" })
 
 // onMessage
@@ -222,6 +236,14 @@ chrome.runtime.onMessage.addListener((message) => {
 
       styleUi = message.styleUi
       break
+
+    case "COLORS_UI_STATUS":
+      console.log("COLORS_UI_STATUS")
+      if (JSON.stringify(colorsUi) !== JSON.stringify(message.colorsUi))
+        applyColorsUI(message.colorsUi)
+      colorsUi = message.colorsUi
+      break
+
     case "REQUEST_SEARCH_COMPLETED":
       console.log("REQUEST_SEARCH_COMPLETED")
       if (scoreUi) applyBetterScoreUI(scoreUi)

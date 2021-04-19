@@ -1,40 +1,49 @@
-.App {
-  text-align: center;
+.sbui {
+  width: 200px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary-500),
+    var(--color-primary-800)
+  );
+  box-sizing: content-box;
+  padding: 0 0 var(--padding-m) 0;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sbui-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding: var(--padding-m);
-  box-sizing: content-box;
+  height: 30px;
+  background: var(--color-primary-800);
+  padding: 0 var(--padding-s);
+}
+.sbui-title {
+  margin: 0;
+  color: #fff;
+  font-size: var(--fs-s);
+  font-weight: 400;
+}
+.sbui-main,
+.sbui-cat {
+  display: flex;
+  flex-flow: column wrap;
 }
 
-.App-link {
-  color: #61dafb;
+.sbui-cat__color {
+  display: flex;
+  flex-flow: column wrap;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sbui-separator {
+  height: 1px;
+  width: 100%;
+  position: relative;
+}
+.sbui-separator::after {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 1px;
+  background: var(--color-primary-300);
+  transform: translate(-50%, 0);
+  left: 50%;
 }

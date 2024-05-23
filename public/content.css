@@ -14,8 +14,10 @@
 }
 
 .steam-better-ui-height {
-  height: 59px !important;
+  height: 60px !important;
+  margn-bottom: 5px !important;
 }
+
 .steam-better-ui-height .col.search_released {
   width: 82px !important;
 }

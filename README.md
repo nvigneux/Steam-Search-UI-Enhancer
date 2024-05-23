@@ -33,7 +33,13 @@
 
 ## Screenshots
 
-*Coming soon: Adding images showing the interface before and after installing the extension.*
+### Before
+
+![Before](public/assets/steam-search-basic.webp)
+
+### After
+
+![After](public/assets/steam-search-better-ui.webp)
 
 ## Commit Convention
 
@@ -77,6 +83,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 Contributions are welcome! Please submit a pull request or open an issue to discuss the changes you want to make.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+# Support me
+### If you find these resources helpful for your projects or simply enjoy the designs, consider supporting my efforts.
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/nvigneux?path=readme)

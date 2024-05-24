@@ -2,10 +2,10 @@
  * webRequest
  */
 
+
 /**
- *
- * @param {string} type
- * @param {object} payload
+ * Sends a message to the background script and all active tabs.
+ * @param {any} message - The message to be sent.
  */
 const sendTabsMessage = (message) => {
   chrome.runtime.sendMessage(message)

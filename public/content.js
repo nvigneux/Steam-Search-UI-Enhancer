@@ -3,9 +3,10 @@
 const regexNumber = /(\d{0,3},)?(\d{3},)?(\d+)/g
 
 /**
+ * Sets attributes on an element.
  *
- * @param {node} el
- * @param {object} attrs
+ * @param {Element} el - The element to set attributes on.
+ * @param {Object} attrs - An object containing attribute key-value pairs.
  */
 const setAttributes = (el, attrs) => {
   Object.keys(attrs).forEach((key) => {
@@ -14,9 +15,11 @@ const setAttributes = (el, attrs) => {
 }
 
 /**
+ * Removes specified attributes from an element.
  *
- * @param {node} el
- * @param {array} attrs
+ * @param {Element} el - The element from which to remove attributes.
+ * @param {Array<string>} attrs - An array of attribute names to remove.
+ * @returns {void}
  */
 const deleteAttributes = (el, attrs) => {
   attrs.forEach((key) => {
@@ -33,10 +36,13 @@ let scoreUi = false
 let styleUi = false
 let colorsUi = {}
 
+
 /**
+ * Determines the color for a review based on the given percent and number of reviews.
  *
- * @param {number} percent
- * @param {number} reviews
+ * @param {number} percent - The percentage value of the review.
+ * @param {number} reviews - The number of reviews.
+ * @returns {string} The color value for the review.
  */
 const reviewColor = (percent, reviews) => {
   if (percent <= 100 && percent >= 95) return "var(--color-favorable-1)"
@@ -55,10 +61,12 @@ const reviewColor = (percent, reviews) => {
 
 // Prepend / Remove DOM
 
+
 /**
+ * Prepends a score UI element to a given row.
  *
- * @param {node} row
- * @param {{percent: string, reviews: string}} stats
+ * @param {HTMLElement} row - The row element to prepend the score UI to.
+ * @param {Object} scoreData - The score data object containing the percent and reviews.
  */
 const prependScoreUI = (row, { percent, reviews }) => {
   const div = document.createElement("div")
@@ -78,10 +86,13 @@ const prependScoreUI = (row, { percent, reviews }) => {
   container.appendChild(div)
 }
 
+
 /**
- *
- * @param {node} row
- * @param {{percent: string, reviews: string}} stats
+ * Adds a custom style to a row element based on the provided percent and reviews.
+ * @param {HTMLElement} row - The row element to add the style to.
+ * @param {Object} options - The options object containing the percent and reviews values.
+ * @param {number} options.percent - The percentage value.
+ * @param {string} options.reviews - The reviews value.
  */
 const prependStyleUI = (row, { percent, reviews }) => {
   row.classList.add("steam-better-ui-border")
@@ -93,9 +104,11 @@ const prependStyleUI = (row, { percent, reviews }) => {
   })
 }
 
+
 /**
+ * Removes the score UI from a given row element.
  *
- * @param {node} row
+ * @param {HTMLElement} row - The row element containing the score UI.
  */
 const removeScoreUI = (row) => {
   const container = row.querySelector(
@@ -108,9 +121,11 @@ const removeScoreUI = (row) => {
   row.classList.remove("steam-better-ui-height")
 }
 
+
 /**
- *
- * @param {node} row
+ * Removes the style attribute and the "steam-better-ui-border" class from a given row element.
+ * 
+ * @param {HTMLElement} row - The row element to remove the style and class from.
  */
 const removeStyleUI = (row) => {
   deleteAttributes(row, ["style"])
@@ -119,8 +134,11 @@ const removeStyleUI = (row) => {
 
 // APPLY / REMOVE
 
+
 /**
+ * Applies a better score UI to the search result rows.
  *
+ * @param {boolean} msgScoreUi - Indicates whether to apply the score UI or not.
  */
 const applyBetterScoreUI = (msgScoreUi) => {
   const searchRows = [
@@ -145,8 +163,11 @@ const applyBetterScoreUI = (msgScoreUi) => {
   })
 }
 
+
 /**
- *
+ * Applies better style UI to the search result rows based on the provided message style.
+ * 
+ * @param {boolean} msgStyle - The message style to apply.
  */
 const applyBetterStyleUI = (msgStyle) => {
   const searchRows = [
@@ -169,8 +190,10 @@ const applyBetterStyleUI = (msgStyle) => {
   })
 }
 
+
 /**
- *
+ * Removes the better score UI from the search result rows.
+ * @param {boolean} msgScoreUi - Flag indicating whether to remove the score UI or not.
  */
 const removeBetterScoreUI = (msgScoreUi) => {
   const searchRows = [
@@ -186,8 +209,10 @@ const removeBetterScoreUI = (msgScoreUi) => {
   })
 }
 
+
 /**
- *
+ * Removes the better style UI from the search result rows.
+ * @param {boolean} msgStyleUi - Indicates whether to remove the style UI or not.
  */
 const removeBetterStyleUI = (msgStyleUi) => {
   const searchRows = [
@@ -205,9 +230,11 @@ const removeBetterStyleUI = (msgStyleUi) => {
 
 // COLORS UI
 
+
 /**
+ * Applies colors to the UI elements.
  *
- * @param {*} colors
+ * @param {Object} colors - The colors to be applied.
  */
 const applyColorsUI = (colors) => {
   const root = document.documentElement

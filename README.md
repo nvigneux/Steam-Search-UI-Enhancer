@@ -84,5 +84,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 Contributions are welcome! Please submit a pull request or open an issue to discuss the changes you want to make.
 
 # Support me
-### If you find these resources helpful for your projects or simply enjoy the designs, consider supporting my efforts.
+### If you find these resources helpful for your projects or simply enjoy the project, consider supporting.
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/nvigneux?path=readme)

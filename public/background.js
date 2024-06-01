@@ -1,8 +1,26 @@
 /**
  * webRequest
  */
-
 const tabStorage = {};
+const initialStorage = {
+  scoreUi: false,
+  styleUi: false,
+  colorsUi: {
+    favorable: {
+      1: { color: '#7ff44e', label: '> 95%' },
+      2: { color: '#2994d6', label: '> 85%' },
+      3: { color: '#1c394f', label: '> 80%' },
+      4: { color: '#3b3e63', label: '> 70%' },
+    },
+    mixed: { 1: { color: '#8c8c8c', label: '> 40%' } },
+    negative: {
+      1: { color: '#c5c53e', label: '> 20%' },
+      2: { color: '#c4853d', label: '< 19% + 500000 reviews' },
+      3: { color: '#b65f4a', label: '< 19% + 50000 reviews' },
+      4: { color: '#cc4848', label: '< 19% + 5000 reviews' },
+    },
+  },
+};
 const networkFilters = {
   urls: [
     'https://store.steampowered.com/search',
@@ -84,34 +102,11 @@ chrome.tabs.onRemoved.addListener((tab) => {
 });
 
 /**
- * onMessage
- * Snowing
- */
-
-let scoreUi = false;
-let styleUi = false;
-let colorsUi = {
-  favorable: {
-    1: { color: '#68b04a', label: '> 95%' },
-    2: { color: '#4b83b3', label: '> 85%' },
-    3: { color: '#a947c7', label: '> 80%' },
-    4: { color: '#714cc7', label: '> 70%' },
-  },
-  mixed: { 1: { color: '#b8b8b8', label: '> 40%' } },
-  negative: {
-    1: { color: '#c5c53e', label: '> 20%' },
-    2: { color: '#c4853d', label: '< 19% + 500000 reviews' },
-    3: { color: '#b65f4a', label: '< 19% + 50000 reviews' },
-    4: { color: '#cc4848', label: '< 19% + 5000 reviews' },
-  },
-};
-
-/**
  * Event listener for the onInstalled event.
  * Sets the initial storage value when the extension is installed or updated.
  */
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ scoreUi, styleUi, colorsUi });
+  chrome.storage.local.set({ ...initialStorage });
 });
 
 // event reducer to send event to content.js
@@ -126,44 +121,56 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       });
       break;
 
-    case 'REQ_SCORE_UI_STATUS':
-      sendResponse({ scoreUi });
-      sendTabsMessage({ type: 'SCORE_UI_STATUS', scoreUi });
+    case 'REQ_SCORE_UI_STATUS': {
+      const storage = await chrome.storage.local.get();
+
+      sendResponse({ scoreUi: storage.scoreUi });
+      sendTabsMessage({ type: 'SCORE_UI_STATUS', scoreUi: storage.scoreUi });
       break;
+    }
 
-    case 'TOGGLE_SCORE_UI':
-      scoreUi = message.scoreUi;
-      chrome.storage.local.set({ scoreUi });
+    case 'TOGGLE_SCORE_UI': {
+      sendResponse({ scoreUi: message.scoreUi });
 
-      sendResponse({ scoreUi });
-      sendTabsMessage({ type: 'SCORE_UI_STATUS', scoreUi });
+      const storage = await chrome.storage.local.get();
+      sendTabsMessage({ type: 'SCORE_UI_STATUS', scoreUi: message.scoreUi });
+      await chrome.storage.local.set({ ...storage, scoreUi: message.scoreUi });
       break;
+    }
 
-    case 'REQ_STYLE_UI_STATUS':
-      sendResponse({ styleUi });
-      sendTabsMessage({ type: 'STYLE_UI_STATUS', styleUi });
+    case 'REQ_STYLE_UI_STATUS': {
+      const storage = await chrome.storage.local.get();
+
+      sendResponse({ styleUi: storage.styleUi });
+      sendTabsMessage({ type: 'STYLE_UI_STATUS', styleUi: storage.styleUi });
       break;
+    }
 
-    case 'TOGGLE_STYLE_UI':
-      styleUi = message.styleUi;
-      chrome.storage.local.set({ styleUi });
+    case 'TOGGLE_STYLE_UI': {
+      sendResponse({ styleUi: message.styleUi });
 
-      sendResponse({ styleUi });
-      sendTabsMessage({ type: 'STYLE_UI_STATUS', styleUi });
+      const storage = await chrome.storage.local.get();
+      sendTabsMessage({ type: 'STYLE_UI_STATUS', styleUi: message.styleUi });
+      await chrome.storage.local.set({ ...storage, styleUi: message.styleUi });
       break;
+    }
 
-    case 'REQ_COLORS_UI_STATUS':
-      sendResponse({ colorsUi });
-      sendTabsMessage({ type: 'COLORS_UI_STATUS', colorsUi });
+    case 'REQ_COLORS_UI_STATUS': {
+      const storage = await chrome.storage.local.get();
+
+      sendResponse({ colorsUi: storage.colorsUi });
+      sendTabsMessage({ type: 'COLORS_UI_STATUS', colorsUi: storage.colorsUi });
       break;
+    }
 
-    case 'SET_COLORS_UI':
-      colorsUi = message.colorsUi;
-      chrome.storage.local.set({ colorsUi });
+    case 'SET_COLORS_UI': {
+      sendResponse({ colorsUi: message.colorsUi });
 
-      sendResponse({ colorsUi });
-      sendTabsMessage({ type: 'COLORS_UI_STATUS', colorsUi });
+      const storage = await chrome.storage.local.get();
+      sendTabsMessage({ type: 'COLORS_UI_STATUS', colorsUi: message.colorsUi });
+      await chrome.storage.local.set({ ...storage, colorsUi: message.colorsUi });
       break;
+    }
 
     default:
       break;

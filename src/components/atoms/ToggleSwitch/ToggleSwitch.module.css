@@ -97,7 +97,7 @@
 }
 
 input:checked + .sliderRound {
-  background-color: var(--color-accent-500);
+  background-color: var(--color-primary-200);
 }
 
 input:checked + .sliderRound::before {

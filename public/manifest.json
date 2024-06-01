@@ -3,25 +3,37 @@
   "name": "Steam Search UI Enhancer",
   "description": "Chrome extension for better Steam Search UI Enhancer",
   "version": "1.0",
-  "manifest_version": 2,
-  "icons": { "16": "logo192.png", "48": "logo192.png", "128": "logo192.png" },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "manifest_version": 3,
+  "icons": {
+    "16": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo192.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "permissions": [
+    "tabs",
     "activeTab",
     "storage",
     "webRequest",
-    "*://store.steampowered.com/"
+    "webNavigation",
+    "nativeMessaging"
   ],
-  "browser_action": {
+  "host_permissions": [
+    "*://store.steampowered.com/*",
+    "*://store.steampowered.com/search/*"
+  ],
+  "action": {
     "default_popup": "index.html",
-    "default_title": "Steam Better UI Reviews"
+    "default_title": "Steam Search UI Enhancer"
   },
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["*://store.steampowered.com/*"],
+      "matches": ["*://store.steampowered.com/*", "*://store.steampowered.com/search/*"],
       "js": ["content.js"],
       "css": ["content.css"]
     }

@@ -1,88 +1,82 @@
-import React, { useState, useEffect } from "react"
+/* eslint-disable no-debugger */
+import { useState, useEffect } from 'react';
 
 // Components
-import ToggleSwitch from "./components/atoms/ToggleSwitch"
-import ColorField from "./components/atoms/ColorField"
-import Button from "./components/atoms/Button"
-import CategoryTitle from "./components/atoms/CategoryTitle"
-import Picto from "./components/atoms/Picto/Picto"
+import ToggleSwitch from './components/atoms/ToggleSwitch/ToggleSwitch';
+import ColorField from './components/atoms/ColorField/ColorField';
+import Button from './components/atoms/Button/Button';
+import CategoryTitle from './components/atoms/CategoryTitle/CategoryTitle';
+import Picto from './components/atoms/Picto/Picto';
 
 // Style
-import "./App.css"
+import './App.css';
 
 function App() {
-  const [toggled, toggleColors] = useState(false)
+  const [toggled, toggleColors] = useState(false);
 
-  const [scoreUi, setScoreUi] = useState(false)
-  const [styleUi, setStyleUi] = useState(false)
-  const [colorsUi, setColorsUi] = useState({})
+  const [scoreUi, setScoreUi] = useState(false);
+  const [styleUi, setStyleUi] = useState(false);
+  const [colorsUi, setColorsUi] = useState({});
 
   /**
-   *
+   * Handles the score event by sending a message to the Chrome runtime.
    */
-  const handleScoreEvent = () => {
-    chrome.runtime.sendMessage({ type: "TOGGLE_SCORE_UI", scoreUi: !scoreUi })
-  }
+  const handleScoreEvent = async () => {
+    const res = await chrome.runtime.sendMessage({ type: 'TOGGLE_SCORE_UI', scoreUi: !scoreUi });
+    setScoreUi(res.scoreUi);
+  };
 
   /**
-   *
+   * Handles the style event by sending a message to the Chrome runtime.
+   * @returns {void}
    */
-  const handleStyleEvent = () => {
-    chrome.runtime.sendMessage({ type: "TOGGLE_STYLE_UI", styleUi: !styleUi })
-  }
+  const handleStyleEvent = async () => {
+    const res = await chrome.runtime.sendMessage({ type: 'TOGGLE_STYLE_UI', styleUi: !styleUi });
+    setStyleUi(res.styleUi);
+  };
 
   /**
-   *
+   * Handles the colors UI event.
    */
-  const handleColorsUiEvent = () => {
-    chrome.runtime.sendMessage({ type: "SET_COLORS_UI", colorsUi })
-  }
+  const handleColorsUiEvent = async () => {
+    const res = await chrome.runtime.sendMessage({ type: 'SET_COLORS_UI', colorsUi });
+    setColorsUi(res.colorsUi);
+  };
 
   /**
+   * Handles the UI colors based on the provided color and name.
    *
-   * @param {*} color
-   * @param {*} name
+   * @param {string} color - The color value to be applied.
+   * @param {string} name - The name used to identify the UI element.
    */
   const handleColorsUi = (color, name) => {
-    const nameColor = name.split("-")
+    const nameColor = name.split('-');
     const newColorsUi = {
       ...colorsUi,
       [nameColor[0]]: {
         ...colorsUi[nameColor[0]],
         [nameColor[1]]: { ...colorsUi[nameColor[0]][nameColor[1]], color },
       },
-    }
-    setColorsUi(newColorsUi)
-  }
+    };
+    setColorsUi(newColorsUi);
+  };
 
   /**
    * Get current URL
    */
-  useEffect(() => {
+  useEffect(async () => {
     // request actual status
-    chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
-    chrome.runtime.sendMessage({ type: "REQ_STYLE_UI_STATUS" })
-    chrome.runtime.sendMessage({ type: "REQ_COLORS_UI_STATUS" })
-    // listen event of reducer in background.js
-    chrome.runtime.onMessage.addListener((message) => {
-      switch (message.type) {
-        case "SCORE_UI_STATUS":
-          setScoreUi(message.scoreUi)
-          break
-        case "STYLE_UI_STATUS":
-          setStyleUi(message.styleUi)
-          break
-        case "COLORS_UI_STATUS":
-          setColorsUi(message.colorsUi)
-          break
-        default:
-          break
-      }
-    })
-  }, [])
+    const storage = await chrome.storage.local.get();
+    setScoreUi(storage.scoreUi);
+    setStyleUi(storage.styleUi);
+    setColorsUi(storage.colorsUi);
+  }, []);
 
   return (
     <div className="sbui">
+      <header className="sbui-radial">
+        <h1 className="sbui-title">Steam Better UI</h1>
+      </header>
       <main className="sbui-main">
         <div className="sbui-cat">
           <CategoryTitle title="Score UI">
@@ -112,14 +106,14 @@ function App() {
               onClick={() => toggleColors(!toggled)}
             >
               {toggled ? (
-                <Picto icon="arrowDown" style={{ height: "7px", top: "2px" }} />
+                <Picto icon="arrowDown" style={{ height: '7px', top: '2px' }} />
               ) : (
                 <Picto
                   icon="arrowDown"
                   style={{
-                    height: "7px",
-                    top: "1px",
-                    transform: "rotate(-90deg)",
+                    height: '7px',
+                    top: '1px',
+                    transform: 'rotate(-90deg)',
                   }}
                 />
               )}
@@ -129,25 +123,25 @@ function App() {
             <div>
               {colorsUi && Object.keys(colorsUi).length > 0
                 ? Object.keys(colorsUi).map((colorName) => (
-                    <div key={colorName} className="sbui-cat__color">
-                      {Object.keys(colorsUi[colorName]).map((colorNum) => (
-                        <ColorField
-                          key={`${colorName}-${colorNum}`}
-                          name={`${colorName}-${colorNum}`}
-                          value={colorsUi[colorName][colorNum].color}
-                          label={colorsUi[colorName][colorNum].label}
-                          onChange={handleColorsUi}
-                        />
-                      ))}
-                    </div>
-                  ))
+                  <div key={colorName} className="sbui-cat__color">
+                    {Object.keys(colorsUi[colorName]).map((colorNum) => (
+                      <ColorField
+                        key={`${colorName}-${colorNum}`}
+                        name={`${colorName}-${colorNum}`}
+                        value={colorsUi[colorName][colorNum].color}
+                        label={colorsUi[colorName][colorNum].label}
+                        onChange={handleColorsUi}
+                      />
+                    ))}
+                  </div>
+                ))
                 : null}
               <div className="sbui-cat__button">
                 <Button
                   onClick={handleColorsUiEvent}
                   color="primary"
                   type="button"
-                  size="s"
+                  size="m"
                 >
                   Save colors
                 </Button>
@@ -157,7 +151,7 @@ function App() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

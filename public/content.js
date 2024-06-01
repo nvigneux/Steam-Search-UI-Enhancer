@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
-const regexNumber = /(\d{0,3},)?(\d{3},)?(\d+)/g
+const regexNumber = /(\d{0,3},)?(\d{3},)?(\d+)/g;
 
 /**
  * Sets attributes on an element.
@@ -10,9 +10,9 @@ const regexNumber = /(\d{0,3},)?(\d{3},)?(\d+)/g
  */
 const setAttributes = (el, attrs) => {
   Object.keys(attrs).forEach((key) => {
-    if (key && attrs[key]) el.setAttribute(key, attrs[key])
-  })
-}
+    if (key && attrs[key]) el.setAttribute(key, attrs[key]);
+  });
+};
 
 /**
  * Removes specified attributes from an element.
@@ -23,19 +23,18 @@ const setAttributes = (el, attrs) => {
  */
 const deleteAttributes = (el, attrs) => {
   attrs.forEach((key) => {
-    if (key) el.removeAttribute(key)
-  })
-}
+    if (key) el.removeAttribute(key);
+  });
+};
 
 /**
  * Steam rating UI
  */
 
 // Const init
-let scoreUi = false
-let styleUi = false
-let colorsUi = {}
-
+let scoreUi = false;
+let styleUi = false;
+let colorsUi = {};
 
 /**
  * Determines the color for a review based on the given percent and number of reviews.
@@ -45,22 +44,18 @@ let colorsUi = {}
  * @returns {string} The color value for the review.
  */
 const reviewColor = (percent, reviews) => {
-  if (percent <= 100 && percent >= 95) return "var(--color-favorable-1)"
-  if (percent <= 95 && percent >= 85) return "var(--color-favorable-2)"
-  if (percent <= 85 && percent >= 80) return "var(--color-favorable-3)"
-  if (percent <= 79 && percent >= 70) return "var(--color-favorable-4)"
-  if (percent <= 69 && percent >= 40) return "var(--color-mixed-1)"
-  if (percent <= 39 && percent >= 20) return "var(--color-negative-4)"
-  if (percent <= 19 && percent >= 0 && reviews >= 500000)
-    return "var(--color-negative-3"
-  if (percent <= 19 && percent >= 0 && reviews <= 500000 && reviews >= 50000)
-    return "var(--color-negative-2"
-  if (percent <= 19 && percent >= 0 && reviews <= 50000 && reviews >= 1)
-    return "var(--color-negative-1"
-}
+  if (percent <= 100 && percent >= 95) return 'color-favorable-1';
+  if (percent <= 95 && percent >= 85) return 'color-favorable-2';
+  if (percent <= 85 && percent >= 80) return 'color-favorable-3';
+  if (percent <= 79 && percent >= 70) return 'color-favorable-4';
+  if (percent <= 69 && percent >= 40) return 'color-mixed-1';
+  if (percent <= 39 && percent >= 20) return 'color-negative-4';
+  if (percent <= 19 && percent >= 0 && reviews >= 500000) return 'color-negative-3';
+  if (percent <= 19 && percent >= 0 && reviews <= 500000 && reviews >= 50000) return 'color-negative-2';
+  if (percent <= 19 && percent >= 0 && reviews <= 50000 && reviews >= 1) return 'color-negative-1';
+};
 
 // Prepend / Remove DOM
-
 
 /**
  * Prepends a score UI element to a given row.
@@ -69,23 +64,22 @@ const reviewColor = (percent, reviews) => {
  * @param {Object} scoreData - The score data object containing the percent and reviews.
  */
 const prependScoreUI = (row, { percent, reviews }) => {
-  const div = document.createElement("div")
+  const div = document.createElement('div');
   const container = row.querySelector(
-    ".search_reviewscore.responsive_secondrow"
-  )
-  const img = row.querySelector(".search_capsule img")
+    '.search_reviewscore.responsive_secondrow',
+  );
+  const img = row.querySelector('.search_capsule img');
   setAttributes(container, {
-    style: `position:relative;`,
-  })
+    style: 'position:relative;',
+  });
   setAttributes(img, {
-    style: "position:relative;transform: translate(0, 15%);",
-  })
+    style: 'position:relative;transform: translate(0, 15%);',
+  });
 
-  div.className = "steam-better-ui-score-ui"
-  div.innerHTML += `${percent}% - ${reviews} reviews`
-  container.appendChild(div)
-}
-
+  div.className = 'steam-better-ui-score-ui';
+  div.innerHTML += `${percent}% - ${reviews} reviews`;
+  container.appendChild(div);
+};
 
 /**
  * Adds a custom style to a row element based on the provided percent and reviews.
@@ -95,15 +89,13 @@ const prependScoreUI = (row, { percent, reviews }) => {
  * @param {string} options.reviews - The reviews value.
  */
 const prependStyleUI = (row, { percent, reviews }) => {
-  row.classList.add("steam-better-ui-border")
-  setAttributes(row, {
-    style: `border-right-color: ${reviewColor(
-      Number(percent),
-      Number(reviews.replace(/,/g, ""))
-    )} !important`,
-  })
-}
-
+  const color = reviewColor(
+    Number(percent),
+    Number(reviews.replace(/,/g, '')),
+  );
+  row.classList.add('steam-better-ui-border');
+  row.classList.add(color);
+};
 
 /**
  * Removes the score UI from a given row element.
@@ -112,28 +104,26 @@ const prependStyleUI = (row, { percent, reviews }) => {
  */
 const removeScoreUI = (row) => {
   const container = row.querySelector(
-    ".search_reviewscore.responsive_secondrow"
-  )
-  const img = row.querySelector(".search_capsule img")
-  row.querySelector(".steam-better-ui-score-ui").remove()
-  deleteAttributes(container, ["style"])
-  deleteAttributes(img, ["style"])
-  row.classList.remove("steam-better-ui-height")
-}
-
+    '.search_reviewscore.responsive_secondrow',
+  );
+  const img = row.querySelector('.search_capsule img');
+  row.querySelector('.steam-better-ui-score-ui').remove();
+  deleteAttributes(container, ['style']);
+  deleteAttributes(img, ['style']);
+  row.classList.remove('steam-better-ui-height');
+};
 
 /**
  * Removes the style attribute and the "steam-better-ui-border" class from a given row element.
- * 
+ *
  * @param {HTMLElement} row - The row element to remove the style and class from.
  */
 const removeStyleUI = (row) => {
-  deleteAttributes(row, ["style"])
-  row.classList.remove("steam-better-ui-border")
-}
+  deleteAttributes(row, ['style']);
+  row.classList.remove('steam-better-ui-border');
+};
 
 // APPLY / REMOVE
-
 
 /**
  * Applies a better score UI to the search result rows.
@@ -143,53 +133,52 @@ const removeStyleUI = (row) => {
 const applyBetterScoreUI = (msgScoreUi) => {
   const searchRows = [
     ...document.querySelectorAll(
-      ".search_result_row:not(.steam-better-ui-height)"
+      '.search_result_row:not(.steam-better-ui-height)',
     ),
-  ]
+  ];
   searchRows.map((row) => {
-    const review = row.querySelector(".search_review_summary")
-    if (review && review.hasAttribute("data-tooltip-html")) {
-      const reviewStats = review.dataset.tooltipHtml.match(regexNumber)
+    const review = row.querySelector('.search_review_summary');
+    if (review && review.hasAttribute('data-tooltip-html')) {
+      const reviewStats = review.dataset.tooltipHtml.match(regexNumber);
       if (reviewStats && reviewStats.length) {
         if (msgScoreUi) {
-          row.classList.add("steam-better-ui-height")
+          row.classList.add('steam-better-ui-height');
           prependScoreUI(row, {
             percent: reviewStats[0],
             reviews: reviewStats[1],
-          })
+          });
         }
       }
     }
-  })
-}
-
+  });
+};
 
 /**
  * Applies better style UI to the search result rows based on the provided message style.
- * 
+ *
  * @param {boolean} msgStyle - The message style to apply.
  */
 const applyBetterStyleUI = (msgStyle) => {
   const searchRows = [
     ...document.querySelectorAll(
-      ".search_result_row:not(.steam-better-ui-border)"
+      '.search_result_row:not(.steam-better-ui-border)',
     ),
-  ]
+  ];
   searchRows.map((row) => {
-    const review = row.querySelector(".search_review_summary")
-    if (review && review.hasAttribute("data-tooltip-html")) {
-      const reviewStats = review.dataset.tooltipHtml.match(regexNumber)
+    const review = row.querySelector('.search_review_summary');
+    if (review && review.hasAttribute('data-tooltip-html')) {
+      const reviewStats = review.dataset.tooltipHtml.match(regexNumber);
       if (reviewStats && reviewStats.length) {
-        if (msgStyle)
+        if (msgStyle) {
           prependStyleUI(row, {
             percent: reviewStats[0],
             reviews: reviewStats[1],
-          })
+          });
+        }
       }
     }
-  })
-}
-
+  });
+};
 
 /**
  * Removes the better score UI from the search result rows.
@@ -197,18 +186,17 @@ const applyBetterStyleUI = (msgStyle) => {
  */
 const removeBetterScoreUI = (msgScoreUi) => {
   const searchRows = [
-    ...document.querySelectorAll(".search_result_row.steam-better-ui-height"),
-  ]
+    ...document.querySelectorAll('.search_result_row.steam-better-ui-height'),
+  ];
   searchRows.map((row) => {
-    const review = row.querySelector(".search_review_summary")
-    if (review && review.hasAttribute("data-tooltip-html")) {
+    const review = row.querySelector('.search_review_summary');
+    if (review && review.hasAttribute('data-tooltip-html')) {
       if (!msgScoreUi) {
-        removeScoreUI(row)
+        removeScoreUI(row);
       }
     }
-  })
-}
-
+  });
+};
 
 /**
  * Removes the better style UI from the search result rows.
@@ -216,20 +204,19 @@ const removeBetterScoreUI = (msgScoreUi) => {
  */
 const removeBetterStyleUI = (msgStyleUi) => {
   const searchRows = [
-    ...document.querySelectorAll(".search_result_row.steam-better-ui-border"),
-  ]
+    ...document.querySelectorAll('.search_result_row.steam-better-ui-border'),
+  ];
   searchRows.map((row) => {
-    const review = row.querySelector(".search_review_summary")
-    if (review && review.hasAttribute("data-tooltip-html")) {
+    const review = row.querySelector('.search_review_summary');
+    if (review && review.hasAttribute('data-tooltip-html')) {
       if (!msgStyleUi) {
-        removeStyleUI(row)
+        removeStyleUI(row);
       }
     }
-  })
-}
+  });
+};
 
 // COLORS UI
-
 
 /**
  * Applies colors to the UI elements.
@@ -237,64 +224,96 @@ const removeBetterStyleUI = (msgStyleUi) => {
  * @param {Object} colors - The colors to be applied.
  */
 const applyColorsUI = (colors) => {
-  const root = document.documentElement
+  const root = document.documentElement;
 
   if (colors && Object.keys(colors).length > 0) {
-    Object.keys(colors).map((colorName) =>
-      Object.keys(colors[colorName]).map((colorNum) =>
-        root.style.setProperty(
-          `--color-${colorName}-${colorNum}`,
-          colors[colorName][colorNum].color
-        )
-      )
-    )
+    Object.keys(colors).map((colorName) => Object.keys(colors[colorName])
+      .map((colorNum) => root.style.setProperty(
+        `--color-${colorName}-${colorNum}`,
+        colors[colorName][colorNum].color,
+      )));
   }
-}
+};
 
-// Runtime
-chrome.runtime.sendMessage({ type: "REQ_SCORE_UI_STATUS" })
-chrome.runtime.sendMessage({ type: "REQ_STYLE_UI_STATUS" })
-chrome.runtime.sendMessage({ type: "REQ_COLORS_UI_STATUS" })
-chrome.runtime.sendMessage({ type: "REQ_COMPLETED_REQUEST_STATUS" })
+const applyBetterClassUI = () => {
+  const searchRows = [
+    ...document.querySelectorAll('.search_result_row:not(.steam-better-ui)'),
+  ];
+  searchRows.map((row) => {
+    const review = row.querySelector('.search_review_summary');
+    if (review && review.hasAttribute('data-tooltip-html')) {
+      row.classList.add('steam-better-ui');
+    }
+  });
+};
+
+// // Runtime
+chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' }).then((response) => {
+  scoreUi = response.scoreUi;
+});
+
+chrome.runtime.sendMessage({ type: 'REQ_STYLE_UI_STATUS' }).then((response) => {
+  styleUi = response.styleUi;
+});
+
+chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' }).then((response) => {
+  colorsUi = response.colorsUi;
+});
+
+chrome.runtime.sendMessage({ type: 'REQ_COMPLETED_REQUEST_STATUS' }).then((response) => {
+  if (response.status) {
+    applyBetterClassUI();
+    if (scoreUi) applyBetterScoreUI(scoreUi);
+    if (styleUi) applyBetterStyleUI(styleUi);
+  }
+});
 
 // onMessage
-chrome.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (message.type) {
-    case "SCORE_UI_STATUS":
-      console.log("SCORE_UI_STATUS")
-      if (message.scoreUi) if (!scoreUi) applyBetterScoreUI(message.scoreUi)
-      if (!message.scoreUi) if (scoreUi) removeBetterScoreUI(message.scoreUi)
+    case 'SCORE_UI_STATUS':
+      applyBetterClassUI();
+      if (message.scoreUi) if (!scoreUi) applyBetterScoreUI(message.scoreUi);
+      if (!message.scoreUi) if (scoreUi) removeBetterScoreUI(message.scoreUi);
 
-      scoreUi = message.scoreUi
-      break
-    case "STYLE_UI_STATUS":
-      console.log("STYLE_UI_STATUS")
-      if (message.styleUi) if (!styleUi) applyBetterStyleUI(message.styleUi)
-      if (!message.styleUi) if (styleUi) removeBetterStyleUI(message.styleUi)
+      scoreUi = message.scoreUi;
+      sendResponse({ scoreUi });
+      break;
 
-      styleUi = message.styleUi
-      break
+    case 'STYLE_UI_STATUS':
+      applyBetterClassUI();
+      if (message.styleUi) if (!styleUi) applyBetterStyleUI(message.styleUi);
+      if (!message.styleUi) if (styleUi) removeBetterStyleUI(message.styleUi);
 
-    case "COLORS_UI_STATUS":
-      console.log("COLORS_UI_STATUS")
-      if (JSON.stringify(colorsUi) !== JSON.stringify(message.colorsUi))
-        applyColorsUI(message.colorsUi)
-      colorsUi = message.colorsUi
-      break
+      styleUi = message.styleUi;
+      sendResponse({ styleUi });
+      break;
 
-    case "REQUEST_SEARCH_COMPLETED":
-      console.log("REQUEST_SEARCH_COMPLETED")
-      if (scoreUi) applyBetterScoreUI(scoreUi)
-      if (styleUi) applyBetterStyleUI(styleUi)
-      break
+    case 'COLORS_UI_STATUS':
+      if (JSON.stringify(colorsUi) !== JSON.stringify(message.colorsUi)) {
+        applyColorsUI(message.colorsUi);
+      }
+      colorsUi = message.colorsUi;
+      sendResponse({ styleUi });
+      break;
+
+    case 'REQUEST_SEARCH_COMPLETED': {
+      applyBetterClassUI();
+      if (scoreUi) applyBetterScoreUI(scoreUi);
+      if (styleUi) applyBetterStyleUI(styleUi);
+      sendResponse({ styleUi });
+      break;
+    }
     // first request is completed when page is not rendered
     // so check if background already has completed request
-    case "REQUEST_SEARCH_COMPLETED_STATUS":
-      console.log("REQUEST_SEARCH_COMPLETED_STATUS")
-      if (scoreUi) applyBetterScoreUI(scoreUi)
-      if (styleUi) applyBetterStyleUI(styleUi)
-      break
+    case 'REQUEST_SEARCH_COMPLETED_STATUS':
+      applyBetterClassUI();
+      if (scoreUi) applyBetterScoreUI(scoreUi);
+      if (styleUi) applyBetterStyleUI(styleUi);
+      sendResponse({ styleUi });
+      break;
     default:
-      break
+      break;
   }
-})
+  return true;
+});

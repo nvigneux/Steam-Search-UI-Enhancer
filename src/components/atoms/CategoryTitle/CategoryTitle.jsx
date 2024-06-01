@@ -1,20 +1,22 @@
-import React from "react"
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 // Style
-import style from "./CategoryTitle.module.css"
+import style from './CategoryTitle.module.css';
 
-const CategoryTitle = ({ title, children }) => (
-  <div className={style.categoryTitle}>
-    <div className={style.categoryTitleHead}>
-      <h2 className={style.categoryTitleTitle}>{title}</h2>
-      {children}
+function CategoryTitle({ title, children }) {
+  return (
+    <div className={style.categoryTitle}>
+      <div className={style.categoryTitleHead}>
+        <h2 className={style.categoryTitleTitle}>{title}</h2>
+        {children}
+      </div>
     </div>
-  </div>
-)
+  );
+}
 
 CategoryTitle.propTypes = {
   title: PropTypes.string.isRequired,
-}
+  children: PropTypes.node.isRequired,
+};
 
-export default CategoryTitle
+export default CategoryTitle;

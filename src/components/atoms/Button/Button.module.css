@@ -16,6 +16,8 @@
   transition: 0.3s ease-in-out;
   transition-property: background-color, color, opacity, border, fill;
   cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .btn:disabled {
@@ -80,8 +82,8 @@
 }
 .btn.m {
   border-radius: var(--rad-32);
-  font-size: var(--fs-m) !important;
-  padding: var(--padding-s) var(--padding-xl);
+  font-size: var(--fs-s) !important;
+  padding: var(--padding-s) var(--padding-l);
 }
 .btn.l {
   border-radius: var(--rad-32);

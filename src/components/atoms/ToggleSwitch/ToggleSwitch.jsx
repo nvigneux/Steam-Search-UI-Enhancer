@@ -1,13 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 // Utils
-import cn from "../../../utils/cn"
+import cn from '../../../utils/cn';
 
 // Style
-import style from "./ToggleSwitch.module.css"
+import style from './ToggleSwitch.module.css';
 
-const ToggleSwitch = ({
+function ToggleSwitch({
   name,
   onChange,
   onBlur,
@@ -17,40 +16,42 @@ const ToggleSwitch = ({
   disabled,
   toggledLabel,
   untoggledLabel,
-}) => (
-  <label
-    className={cn([
-      style.switch,
-      className,
-      disabled && style.disabled,
-      !toggledLabel || !untoggledLabel ? style.short : "",
-    ])}
-    htmlFor={id}
-  >
-    <input
-      disabled={disabled}
-      id={id}
-      name={name}
-      onChange={() => {
-        if (!disabled) onChange()
-      }}
-      onBlur={onBlur}
-      checked={toggled}
-      type="checkbox"
-    />
-    <span className={style.sliderRound} />
-    {toggledLabel && untoggledLabel ? (
-      <>
-        <span className={cn([style.label, style.yesLabel])}>
-          {toggledLabel}
-        </span>
-        <span className={cn([style.label, style.noLabel])}>
-          {untoggledLabel}
-        </span>
-      </>
-    ) : null}
-  </label>
-)
+}) {
+  return (
+    <label
+      className={cn([
+        style.switch,
+        className,
+        disabled && style.disabled,
+        !toggledLabel || !untoggledLabel ? style.short : '',
+      ])}
+      htmlFor={id}
+    >
+      <input
+        disabled={disabled}
+        id={id}
+        name={name}
+        onChange={() => {
+          if (!disabled) onChange();
+        }}
+        onBlur={onBlur}
+        checked={toggled}
+        type="checkbox"
+      />
+      <span className={style.sliderRound} />
+      {toggledLabel && untoggledLabel ? (
+        <>
+          <span className={cn([style.label, style.yesLabel])}>
+            {toggledLabel}
+          </span>
+          <span className={cn([style.label, style.noLabel])}>
+            {untoggledLabel}
+          </span>
+        </>
+      ) : null}
+    </label>
+  );
+}
 
 ToggleSwitch.propTypes = {
   id: PropTypes.string.isRequired,
@@ -62,14 +63,14 @@ ToggleSwitch.propTypes = {
   onBlur: PropTypes.func,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-}
+};
 
 ToggleSwitch.defaultProps = {
   onBlur: () => {},
   className: null,
   disabled: false,
-  toggledLabel: "",
-  untoggledLabel: "",
-}
+  toggledLabel: '',
+  untoggledLabel: '',
+};
 
-export default ToggleSwitch
+export default ToggleSwitch;

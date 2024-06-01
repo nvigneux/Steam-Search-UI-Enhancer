@@ -1,13 +1,14 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // Utils & misc
-import cn from "../../../utils/cn"
-import Loader from "./icons/Loader"
+import cn from '../../../utils/cn';
+import Loader from './icons/Loader';
 
 // Style
-import style from "./Button.module.css"
+import style from './Button.module.css';
 
 const Button = React.forwardRef(
   (
@@ -23,7 +24,7 @@ const Button = React.forwardRef(
       disabled,
       ...props
     },
-    ref
+    ref,
   ) => (
     <button
       ref={ref}
@@ -42,34 +43,34 @@ const Button = React.forwardRef(
       {isLoading ? <Loader className={style.loader} /> : null}
       {children}
     </button>
-  )
-)
+  ),
+);
 
 Button.propTypes = {
   color: PropTypes.oneOf([
-    "primary",
-    "grey",
-    "transparent",
-    "transparentPrimary",
-    "white",
+    'primary',
+    'grey',
+    'transparent',
+    'transparentPrimary',
+    'white',
   ]).isRequired,
   type: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
-  size: PropTypes.oneOf(["xs", "s", "m", "l"]),
+  size: PropTypes.oneOf(['xs', 's', 'm', 'l']),
   className: PropTypes.string,
   outline: PropTypes.bool,
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
-}
+};
 
 Button.defaultProps = {
   className: null,
-  size: "m",
+  size: 'm',
   onClick: () => {},
   outline: false,
   isLoading: false,
   disabled: false,
-}
+};
 
-export default Button
+export default Button;

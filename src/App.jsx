@@ -66,18 +66,17 @@ function App() {
    */
   useEffect(async () => {
     // request actual status
-    const scoreUiResponse = await chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' });
-    setScoreUi(scoreUiResponse.scoreUi);
-
-    const styleUiResponse = await chrome.runtime.sendMessage({ type: 'REQ_STYLE_UI_STATUS' });
-    setStyleUi(styleUiResponse.styleUi);
-
-    const colorsUiResponse = await chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' });
-    setColorsUi(colorsUiResponse.colorsUi);
+    const storage = await chrome.storage.local.get();
+    setScoreUi(storage.scoreUi);
+    setStyleUi(storage.styleUi);
+    setColorsUi(storage.colorsUi);
   }, []);
 
   return (
     <div className="sbui">
+      <header className="sbui-radial">
+        <h1 className="sbui-title">Steam Better UI</h1>
+      </header>
       <main className="sbui-main">
         <div className="sbui-cat">
           <CategoryTitle title="Score UI">
@@ -142,7 +141,7 @@ function App() {
                   onClick={handleColorsUiEvent}
                   color="primary"
                   type="button"
-                  size="s"
+                  size="m"
                 >
                   Save colors
                 </Button>

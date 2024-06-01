@@ -30,7 +30,9 @@
 
   /* Colors */
   --color-primary-100: #767e88;
+  --color-primary-200: #67c1f5;
   --color-primary-300: #495360;
+  --color-primary-400: #223d57;
   --color-primary-500: #1b2838;
   --color-primary-800: #131c27;
 
@@ -60,6 +62,27 @@
   --fs-xl: 30px;
 }
 
+@font-face {
+  font-family: "Motiva Sans";
+  src: url("./fonts/MotivaSansBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Motiva Sans";
+  src: url("./fonts/MotivaSansRegular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Motiva Sans";
+  src: url("./fonts/MotivaSansLight.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   font-family: var(--font-primary);
@@ -68,6 +91,6 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: "Motiva Sans", source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
 }

@@ -13,8 +13,8 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "permissions": [
-    "activeTab",
     "tabs",
+    "activeTab",
     "storage",
     "webRequest",
     "webNavigation",
@@ -22,7 +22,7 @@
   ],
   "host_permissions": [
     "*://store.steampowered.com/*",
-    "*://api.steampowered.com/*"
+    "*://store.steampowered.com/search/*"
   ],
   "action": {
     "default_popup": "index.html",
@@ -33,7 +33,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://store.steampowered.com/*"],
+      "matches": ["*://store.steampowered.com/*", "*://store.steampowered.com/search/*"],
       "js": ["content.js"],
       "css": ["content.css"]
     }

@@ -44,15 +44,15 @@ let colorsUi = {};
  * @returns {string} The color value for the review.
  */
 const reviewColor = (percent, reviews) => {
-  if (percent <= 100 && percent >= 95) return 'var(--color-favorable-1)';
-  if (percent <= 95 && percent >= 85) return 'var(--color-favorable-2)';
-  if (percent <= 85 && percent >= 80) return 'var(--color-favorable-3)';
-  if (percent <= 79 && percent >= 70) return 'var(--color-favorable-4)';
-  if (percent <= 69 && percent >= 40) return 'var(--color-mixed-1)';
-  if (percent <= 39 && percent >= 20) return 'var(--color-negative-4)';
-  if (percent <= 19 && percent >= 0 && reviews >= 500000) return 'var(--color-negative-3';
-  if (percent <= 19 && percent >= 0 && reviews <= 500000 && reviews >= 50000) return 'var(--color-negative-2';
-  if (percent <= 19 && percent >= 0 && reviews <= 50000 && reviews >= 1) return 'var(--color-negative-1';
+  if (percent <= 100 && percent >= 95) return 'color-favorable-1';
+  if (percent <= 95 && percent >= 85) return 'color-favorable-2';
+  if (percent <= 85 && percent >= 80) return 'color-favorable-3';
+  if (percent <= 79 && percent >= 70) return 'color-favorable-4';
+  if (percent <= 69 && percent >= 40) return 'color-mixed-1';
+  if (percent <= 39 && percent >= 20) return 'color-negative-4';
+  if (percent <= 19 && percent >= 0 && reviews >= 500000) return 'color-negative-3';
+  if (percent <= 19 && percent >= 0 && reviews <= 500000 && reviews >= 50000) return 'color-negative-2';
+  if (percent <= 19 && percent >= 0 && reviews <= 50000 && reviews >= 1) return 'color-negative-1';
 };
 
 // Prepend / Remove DOM
@@ -89,13 +89,12 @@ const prependScoreUI = (row, { percent, reviews }) => {
  * @param {string} options.reviews - The reviews value.
  */
 const prependStyleUI = (row, { percent, reviews }) => {
+  const color = reviewColor(
+    Number(percent),
+    Number(reviews.replace(/,/g, '')),
+  );
   row.classList.add('steam-better-ui-border');
-  setAttributes(row, {
-    style: `border-right-color: ${reviewColor(
-      Number(percent),
-      Number(reviews.replace(/,/g, '')),
-    )} !important`,
-  });
+  row.classList.add(color);
 };
 
 /**
@@ -236,6 +235,18 @@ const applyColorsUI = (colors) => {
   }
 };
 
+const applyBetterClassUI = () => {
+  const searchRows = [
+    ...document.querySelectorAll('.search_result_row:not(.steam-better-ui)'),
+  ];
+  searchRows.map((row) => {
+    const review = row.querySelector('.search_review_summary');
+    if (review && review.hasAttribute('data-tooltip-html')) {
+      row.classList.add('steam-better-ui');
+    }
+  });
+};
+
 // // Runtime
 chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' }).then((response) => {
   scoreUi = response.scoreUi;
@@ -251,6 +262,7 @@ chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' }).then((response) => 
 
 chrome.runtime.sendMessage({ type: 'REQ_COMPLETED_REQUEST_STATUS' }).then((response) => {
   if (response.status) {
+    applyBetterClassUI();
     if (scoreUi) applyBetterScoreUI(scoreUi);
     if (styleUi) applyBetterStyleUI(styleUi);
   }
@@ -258,9 +270,9 @@ chrome.runtime.sendMessage({ type: 'REQ_COMPLETED_REQUEST_STATUS' }).then((respo
 
 // onMessage
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('message', message, { scoreUi, styleUi, colorsUi });
   switch (message.type) {
     case 'SCORE_UI_STATUS':
+      applyBetterClassUI();
       if (message.scoreUi) if (!scoreUi) applyBetterScoreUI(message.scoreUi);
       if (!message.scoreUi) if (scoreUi) removeBetterScoreUI(message.scoreUi);
 
@@ -269,6 +281,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       break;
 
     case 'STYLE_UI_STATUS':
+      applyBetterClassUI();
       if (message.styleUi) if (!styleUi) applyBetterStyleUI(message.styleUi);
       if (!message.styleUi) if (styleUi) removeBetterStyleUI(message.styleUi);
 
@@ -285,6 +298,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       break;
 
     case 'REQUEST_SEARCH_COMPLETED': {
+      applyBetterClassUI();
       if (scoreUi) applyBetterScoreUI(scoreUi);
       if (styleUi) applyBetterStyleUI(styleUi);
       sendResponse({ styleUi });
@@ -293,6 +307,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     // first request is completed when page is not rendered
     // so check if background already has completed request
     case 'REQUEST_SEARCH_COMPLETED_STATUS':
+      applyBetterClassUI();
       if (scoreUi) applyBetterScoreUI(scoreUi);
       if (styleUi) applyBetterStyleUI(styleUi);
       sendResponse({ styleUi });

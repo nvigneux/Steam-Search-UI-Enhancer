@@ -1,25 +1,25 @@
-import React from "react"
-import PropTypes from "prop-types"
+/* eslint-disable react/jsx-props-no-spreading */
+import PropTypes from 'prop-types';
 
 // Icons
-import ArrowDown from "./icons/IconArrowDown"
-import NewIconChevron from "./icons/NewIconChevron"
+import ArrowDown from './icons/IconArrowDown';
+import NewIconChevron from './icons/NewIconChevron';
 
-const Picto = ({ icon, ...props }) => {
+function Picto({ icon, ...props }) {
   switch (icon) {
-    case "arrowDown":
-      return <ArrowDown {...props} />
-    case "newIconChevron":
-      return <NewIconChevron {...props} />
+    case 'arrowDown':
+      return <ArrowDown {...props} />;
+    case 'newIconChevron':
+      return <NewIconChevron {...props} />;
     default:
-      return null
+      return null;
   }
 }
 
-export const availablePictos = ["arrowDown", "newIconChevron"]
+export const availablePictos = ['arrowDown', 'newIconChevron'];
 
 Picto.propTypes = {
   icon: PropTypes.oneOf(availablePictos).isRequired,
-}
+};
 
-export default Picto
+export default Picto;

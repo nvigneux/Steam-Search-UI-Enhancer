@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { useState, useEffect } from 'react';
 
 // Components
@@ -20,23 +21,26 @@ function App() {
   /**
    * Handles the score event by sending a message to the Chrome runtime.
    */
-  const handleScoreEvent = () => {
-    chrome.runtime.sendMessage({ type: 'TOGGLE_SCORE_UI', scoreUi: !scoreUi });
+  const handleScoreEvent = async () => {
+    const res = await chrome.runtime.sendMessage({ type: 'TOGGLE_SCORE_UI', scoreUi: !scoreUi });
+    setScoreUi(res.scoreUi);
   };
 
   /**
    * Handles the style event by sending a message to the Chrome runtime.
    * @returns {void}
    */
-  const handleStyleEvent = () => {
-    chrome.runtime.sendMessage({ type: 'TOGGLE_STYLE_UI', styleUi: !styleUi });
+  const handleStyleEvent = async () => {
+    const res = await chrome.runtime.sendMessage({ type: 'TOGGLE_STYLE_UI', styleUi: !styleUi });
+    setStyleUi(res.styleUi);
   };
 
   /**
    * Handles the colors UI event.
    */
-  const handleColorsUiEvent = () => {
-    chrome.runtime.sendMessage({ type: 'SET_COLORS_UI', colorsUi });
+  const handleColorsUiEvent = async () => {
+    const res = await chrome.runtime.sendMessage({ type: 'SET_COLORS_UI', colorsUi });
+    setColorsUi(res.colorsUi);
   };
 
   /**
@@ -60,31 +64,16 @@ function App() {
   /**
    * Get current URL
    */
-  useEffect(() => {
+  useEffect(async () => {
     // request actual status
-    chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' });
-    chrome.runtime.sendMessage({ type: 'REQ_STYLE_UI_STATUS' });
-    chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' });
-    // listen event of reducer in background.js
-    chrome.runtime.onMessage.addListener((message, send, sendResponse) => {
-      switch (message.type) {
-        case 'SCORE_UI_STATUS':
-          setScoreUi(message.scoreUi);
-          sendResponse({ scoreUi: message.scoreUi });
-          break;
-        case 'STYLE_UI_STATUS':
-          setStyleUi(message.styleUi);
-          sendResponse({ scoreUi: message.scoreUi });
-          break;
-        case 'COLORS_UI_STATUS':
-          setColorsUi(message.colorsUi);
-          sendResponse({ scoreUi: message.scoreUi });
-          break;
-        default:
-          break;
-      }
-      return true;
-    });
+    const scoreUiResponse = await chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' });
+    setScoreUi(scoreUiResponse.scoreUi);
+
+    const styleUiResponse = await chrome.runtime.sendMessage({ type: 'REQ_STYLE_UI_STATUS' });
+    setStyleUi(styleUiResponse.styleUi);
+
+    const colorsUiResponse = await chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' });
+    setColorsUi(colorsUiResponse.colorsUi);
   }, []);
 
   return (

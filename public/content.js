@@ -236,25 +236,39 @@ const applyColorsUI = (colors) => {
   }
 };
 
-// Runtime
-chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' });
-chrome.runtime.sendMessage({ type: 'REQ_STYLE_UI_STATUS' });
-chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' });
-chrome.runtime.sendMessage({ type: 'REQ_COMPLETED_REQUEST_STATUS' });
+// // Runtime
+chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' }).then((response) => {
+  scoreUi = response.scoreUi;
+});
+
+chrome.runtime.sendMessage({ type: 'REQ_STYLE_UI_STATUS' }).then((response) => {
+  styleUi = response.styleUi;
+});
+
+chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' }).then((response) => {
+  colorsUi = response.colorsUi;
+});
+
+chrome.runtime.sendMessage({ type: 'REQ_COMPLETED_REQUEST_STATUS' }).then((response) => {
+  if (response.status) {
+    if (scoreUi) applyBetterScoreUI(scoreUi);
+    if (styleUi) applyBetterStyleUI(styleUi);
+  }
+});
 
 // onMessage
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log('message', message, { scoreUi, styleUi, colorsUi });
   switch (message.type) {
     case 'SCORE_UI_STATUS':
-      console.log('SCORE_UI_STATUS');
       if (message.scoreUi) if (!scoreUi) applyBetterScoreUI(message.scoreUi);
       if (!message.scoreUi) if (scoreUi) removeBetterScoreUI(message.scoreUi);
 
       scoreUi = message.scoreUi;
       sendResponse({ scoreUi });
       break;
+
     case 'STYLE_UI_STATUS':
-      console.log('STYLE_UI_STATUS');
       if (message.styleUi) if (!styleUi) applyBetterStyleUI(message.styleUi);
       if (!message.styleUi) if (styleUi) removeBetterStyleUI(message.styleUi);
 
@@ -263,7 +277,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       break;
 
     case 'COLORS_UI_STATUS':
-      console.log('COLORS_UI_STATUS');
       if (JSON.stringify(colorsUi) !== JSON.stringify(message.colorsUi)) {
         applyColorsUI(message.colorsUi);
       }
@@ -271,16 +284,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse({ styleUi });
       break;
 
-    case 'REQUEST_SEARCH_COMPLETED':
-      console.log('REQUEST_SEARCH_COMPLETED');
+    case 'REQUEST_SEARCH_COMPLETED': {
       if (scoreUi) applyBetterScoreUI(scoreUi);
       if (styleUi) applyBetterStyleUI(styleUi);
       sendResponse({ styleUi });
       break;
+    }
     // first request is completed when page is not rendered
     // so check if background already has completed request
     case 'REQUEST_SEARCH_COMPLETED_STATUS':
-      console.log('REQUEST_SEARCH_COMPLETED_STATUS');
       if (scoreUi) applyBetterScoreUI(scoreUi);
       if (styleUi) applyBetterStyleUI(styleUi);
       sendResponse({ styleUi });

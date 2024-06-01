@@ -15,11 +15,42 @@
 
 .steam-better-ui-height {
   height: 60px !important;
-  margn-bottom: 5px !important;
+  margin-bottom: 5px !important;
 }
 
-.steam-better-ui-height .col.search_released {
+.steam-better-ui .col.search_released {
   width: 82px !important;
+}
+
+.steam-better-ui-border .col.search_discount_and_price .discount_block {
+  width: 135px !important;
+}
+
+.steam-better-ui.col.search_capsule {
+  width: 140px !important;
+}
+
+.steam-better-ui-border {
+  position: relative;
+  border: 0px solid !important;
+}
+
+.search_results.hide_owned .steam-better-ui.ds_owned {
+  height: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+.steam-better-ui-border::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 85%;
+  right: 0;
+  top: 50%;
+  transform: translate(-6px, -50%);
+  background: var(--color-favorable-1);
+  border-radius: 5px;
 }
 
 .steam-better-ui-score-ui {
@@ -27,9 +58,33 @@
   position: absolute;
   width: max-content;
   left: 21%;
-  bottom: -10px;
+  bottom: -8px;
 }
 
-.steam-better-ui-border {
-  border-right: 6px solid !important;
+.color-favorable-1::after {
+  background-color: var(--color-favorable-1);
+}
+.color-favorable-2::after {
+  background-color: var(--color-favorable-2);
+}
+.color-favorable-3::after {
+  background-color: var(--color-favorable-3);
+}
+.color-favorable-4::after {
+  background-color: var(--color-favorable-4);
+}
+.color-mixed-1::after {
+  background-color: var(--color-mixed-1);
+}
+.color-negative-1::after {
+  background-color: var(--color-negative-1);
+}
+.color-negative-2::after {
+  background-color: var(--color-negative-2);
+}
+.color-negative-3::after {
+  background-color: var(--color-negative-3);
+}
+.color-negative-4::after {
+  background-color: var(--color-negative-4);
 }

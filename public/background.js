@@ -1,10 +1,7 @@
-/**
- * webRequest
- */
-const tabStorage = {};
-const initialStorage = {
-  scoreUi: false,
-  styleUi: false,
+const TAB_STORAGE = {};
+const INITIAL_STORAGE = {
+  scoreUi: true,
+  styleUi: true,
   colorsUi: {
     favorable: {
       1: { color: '#7ff44e', label: '> 95%' },
@@ -21,7 +18,7 @@ const initialStorage = {
     },
   },
 };
-const networkFilters = {
+const NETWORK_FILTERS = {
   urls: [
     'https://store.steampowered.com/search',
     '*://store.steampowered.com/search',
@@ -48,9 +45,9 @@ const sendTabsMessage = (message) => {
 chrome.tabs.onActivated.addListener((activeInfo) => {
   const tabId = activeInfo ? activeInfo.tabId : chrome.tabs.TAB_ID_NONE;
 
-  // Vérifiez si tabStorage[tabId] existe, sinon l'initialiser
-  if (!tabStorage[tabId]) {
-    tabStorage[tabId] = {
+  // Vérifiez si TAB_STORAGE[tabId] existe, sinon l'initialiser
+  if (!TAB_STORAGE[tabId]) {
+    TAB_STORAGE[tabId] = {
       id: tabId,
       requests: {},
       registerTime: new Date().getTime(),
@@ -58,31 +55,30 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
   }
 });
 
-// onBeforeRequest
+// onBeforeRequest listener to track search requests
 chrome.webRequest.onBeforeRequest.addListener((details) => {
   const { tabId, requestId } = details;
-  if (!tabStorage[tabId]) {
-    tabStorage[tabId] = {
+  if (!TAB_STORAGE[tabId]) {
+    TAB_STORAGE[tabId] = {
       id: tabId,
       requests: {},
       registerTime: new Date().getTime(),
     };
   }
 
-  tabStorage[tabId].requests[requestId] = {
+  TAB_STORAGE[tabId].requests[requestId] = {
     requestId,
     url: details.url,
     startTime: details.timeStamp,
     status: 'pending',
   };
-}, networkFilters, ['requestBody']);
+}, NETWORK_FILTERS, ['requestBody']);
 
-// onCompleted
+// On completed request, update the request status
 chrome.webRequest.onCompleted.addListener((details) => {
   const { tabId, requestId } = details;
-  if (!tabStorage[tabId] || !tabStorage[tabId].requests[requestId]) return;
-
-  const request = tabStorage[tabId].requests[requestId];
+  if (!TAB_STORAGE[tabId] || !TAB_STORAGE[tabId].requests[requestId]) return;
+  const request = TAB_STORAGE[tabId].requests[requestId];
 
   Object.assign(request, {
     endTime: details.timeStamp,
@@ -91,14 +87,14 @@ chrome.webRequest.onCompleted.addListener((details) => {
   });
 
   sendTabsMessage({ type: 'REQUEST_SEARCH_COMPLETED', request, tabId });
-}, networkFilters);
+}, NETWORK_FILTERS);
 
 // onRemoved
 chrome.tabs.onRemoved.addListener((tab) => {
   const { tabId } = tab;
-  if (!tabStorage[tabId]) return;
+  if (!TAB_STORAGE[tabId]) return;
 
-  tabStorage[tabId] = null;
+  TAB_STORAGE[tabId] = null;
 });
 
 /**
@@ -106,7 +102,7 @@ chrome.tabs.onRemoved.addListener((tab) => {
  * Sets the initial storage value when the extension is installed or updated.
  */
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({ ...initialStorage });
+  chrome.storage.local.set({ ...INITIAL_STORAGE });
 });
 
 // event reducer to send event to content.js
@@ -114,10 +110,10 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   switch (message.type) {
     case 'REQ_COMPLETED_REQUEST_STATUS':
-      sendResponse({ status: Object.keys(tabStorage).length > 0 });
+      sendResponse({ status: Object.keys(TAB_STORAGE).length > 0 });
       sendTabsMessage({
         type: 'REQUEST_SEARCH_COMPLETED_STATUS',
-        status: Object.keys(tabStorage).length > 0,
+        status: Object.keys(TAB_STORAGE).length > 0,
       });
       break;
 

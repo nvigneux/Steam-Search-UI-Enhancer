@@ -1,7 +1,7 @@
 {
   "short_name": "Steam Search UI Enhancer",
   "name": "Steam Search UI Enhancer",
-  "description": "Chrome extension that enhances the user interface of the Steam search page. It adds color coding based on game ratings and simplifies the UI to easily spot the highest-rated games.",
+  "description": "Enhances the UI of the Steam search. Adds color based on game ratings and simplifies the UI to easily spot the highest-rated games",
   "version": "2.0",
   "manifest_version": 3,
   "icons": {
@@ -16,9 +16,7 @@
     "tabs",
     "activeTab",
     "storage",
-    "webRequest",
-    "webNavigation",
-    "nativeMessaging"
+    "webRequest"
   ],
   "host_permissions": [
     "*://store.steampowered.com/*",

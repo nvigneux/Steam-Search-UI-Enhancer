@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 const regexNumber = /(\d{0,3},)?(\d{3},)?(\d+)/g;
 
@@ -32,8 +31,8 @@ const deleteAttributes = (el, attrs) => {
  */
 
 // Const init
-let scoreUi = false;
-let styleUi = false;
+let scoreUi = true;
+let styleUi = true;
 let colorsUi = {};
 
 /**
@@ -44,15 +43,28 @@ let colorsUi = {};
  * @returns {string} The color value for the review.
  */
 const reviewColor = (percent, reviews) => {
-  if (percent <= 100 && percent >= 95) return 'color-favorable-1';
-  if (percent <= 95 && percent >= 85) return 'color-favorable-2';
-  if (percent <= 85 && percent >= 80) return 'color-favorable-3';
-  if (percent <= 79 && percent >= 70) return 'color-favorable-4';
-  if (percent <= 69 && percent >= 40) return 'color-mixed-1';
-  if (percent <= 39 && percent >= 20) return 'color-negative-4';
-  if (percent <= 19 && percent >= 0 && reviews >= 500000) return 'color-negative-3';
-  if (percent <= 19 && percent >= 0 && reviews <= 500000 && reviews >= 50000) return 'color-negative-2';
-  if (percent <= 19 && percent >= 0 && reviews <= 50000 && reviews >= 1) return 'color-negative-1';
+  switch (true) {
+    case percent >= 95:
+      return 'color-favorable-1';
+    case percent >= 85:
+      return 'color-favorable-2';
+    case percent >= 80:
+      return 'color-favorable-3';
+    case percent >= 70:
+      return 'color-favorable-4';
+    case percent >= 40:
+      return 'color-mixed-1';
+    case percent >= 20:
+      return 'color-negative-4';
+    case percent >= 0 && reviews >= 500000:
+      return 'color-negative-3';
+    case percent >= 0 && reviews >= 50000:
+      return 'color-negative-2';
+    case percent >= 0 && reviews >= 1:
+      return 'color-negative-1';
+    default:
+      return '';
+  }
 };
 
 // Prepend / Remove DOM
@@ -65,16 +77,11 @@ const reviewColor = (percent, reviews) => {
  */
 const prependScoreUI = (row, { percent, reviews }) => {
   const div = document.createElement('div');
-  const container = row.querySelector(
-    '.search_reviewscore.responsive_secondrow',
-  );
+  const container = row.querySelector('.search_reviewscore.responsive_secondrow');
   const img = row.querySelector('.search_capsule img');
-  setAttributes(container, {
-    style: 'position:relative;',
-  });
-  setAttributes(img, {
-    style: 'position:relative;transform: translate(0, 15%);',
-  });
+
+  setAttributes(container, { style: 'position:relative;' });
+  setAttributes(img, { style: 'position:relative;transform: translate(0, 15%);' });
 
   div.className = 'steam-better-ui-score-ui';
   div.innerHTML += `${percent}% - ${reviews} reviews`;
@@ -103,10 +110,9 @@ const prependStyleUI = (row, { percent, reviews }) => {
  * @param {HTMLElement} row - The row element containing the score UI.
  */
 const removeScoreUI = (row) => {
-  const container = row.querySelector(
-    '.search_reviewscore.responsive_secondrow',
-  );
+  const container = row.querySelector('.search_reviewscore.responsive_secondrow');
   const img = row.querySelector('.search_capsule img');
+
   row.querySelector('.steam-better-ui-score-ui').remove();
   deleteAttributes(container, ['style']);
   deleteAttributes(img, ['style']);

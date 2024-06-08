@@ -14,7 +14,7 @@
 
 1. Clone this repository to your local machine:
    ```sh
-   git clone https://github.com/your-username/steam-search-ui-enhancer.git
+   git clone https://github.com/nvigneux/steam-search-ui-enhancer.git
    ```
 2. Install the necessary dependencies:
    ```sh
@@ -27,6 +27,7 @@
    ```
 4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 5. Load the extension in Chrome:
+   - Build `yarn build`
    - Open `chrome://extensions/`.
    - Enable `Developer mode`.
    - Click `Load unpacked` and select the `build` folder of your project.

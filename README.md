@@ -10,6 +10,16 @@
 - Simplifies the user interface for more intuitive navigation.
 - Clearly displays the highest-rated games.
 
+## Screenshots
+
+### Before
+
+![Before](public/assets/steam-search-basic.webp)
+
+### After
+
+![After](public/assets/steam-search-better-ui.webp)
+
 ## Installation
 
 1. Clone this repository to your local machine:
@@ -31,16 +41,6 @@
    - Open `chrome://extensions/`.
    - Enable `Developer mode`.
    - Click `Load unpacked` and select the `build` folder of your project.
-
-## Screenshots
-
-### Before
-
-![Before](public/assets/steam-search-basic.webp)
-
-### After
-
-![After](public/assets/steam-search-better-ui.webp)
 
 ## Commit Convention
 

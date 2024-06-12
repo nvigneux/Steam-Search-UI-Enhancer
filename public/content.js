@@ -255,15 +255,15 @@ const applyBetterClassUI = () => {
 
 // // Runtime
 chrome.runtime.sendMessage({ type: 'REQ_SCORE_UI_STATUS' }).then((response) => {
-  scoreUi = response.scoreUi;
+  if (response?.scoreUi) scoreUi = response.scoreUi;
 });
 
 chrome.runtime.sendMessage({ type: 'REQ_STYLE_UI_STATUS' }).then((response) => {
-  styleUi = response.styleUi;
+  if (response?.styleUi) styleUi = response.styleUi;
 });
 
 chrome.runtime.sendMessage({ type: 'REQ_COLORS_UI_STATUS' }).then((response) => {
-  colorsUi = response.colorsUi;
+  if (response?.colorsUi) colorsUi = response.colorsUi;
 });
 
 chrome.runtime.sendMessage({ type: 'REQ_COMPLETED_REQUEST_STATUS' }).then((response) => {

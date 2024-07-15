@@ -26,3 +26,7 @@ yarn-error.log*
 /build.crx
 /build.pem
 build.zip
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

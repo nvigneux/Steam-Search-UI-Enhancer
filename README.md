@@ -4,6 +4,8 @@
 
 **Steam Search UI Enhancer** is a Chrome extension that enhances the user interface of the Steam search page. It adds color coding based on game ratings and simplifies the UI to easily spot the highest-rated games.
 
+## [Download on Chrome Web Store](https://chromewebstore.google.com/detail/steam-search-ui-enhancer/pndgpcbkpclaonbdfhbckbkhgfebemdg)
+
 ## Features
 
 - Adds color coding based on game ratings.

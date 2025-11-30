@@ -78,7 +78,7 @@ function App() {
   return (
     <div className="sbui">
       <header className="sbui-radial">
-        <h1 className="sbui-title">Steam Better UI 2</h1>
+        <h1 className="sbui-title">Steam Better UI</h1>
       </header>
       <main className="sbui-main">
         <div className="sbui-cat">

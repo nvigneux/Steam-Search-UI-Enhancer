@@ -77,11 +77,11 @@ const reviewColor = (percent, reviews) => {
  */
 const prependScoreUI = (row, { percent, reviews }) => {
   const div = document.createElement('div');
-  const container = row.querySelector('.search_reviewscore.responsive_secondrow');
-  const img = row.querySelector('.search_capsule img');
+  const parentContainer = row.querySelector('.responsive_search_name_combined');
+  const container = row.querySelector('.search_released.responsive_secondrow');
 
+  setAttributes(parentContainer, { style: 'grid-template-areas: "title none none price" "platforms release reviews price"; grid-template-columns: minmax(200px, 50%) minmax(85px, 20%) minmax(30px, 5%) minmax(100px, 25%);' });
   setAttributes(container, { style: 'position:relative;' });
-  setAttributes(img, { style: 'position:relative;transform: translate(0, 15%);' });
 
   div.className = 'steam-better-ui-score-ui';
   div.innerHTML += `${percent}% - ${reviews} reviews`;
@@ -96,6 +96,8 @@ const prependScoreUI = (row, { percent, reviews }) => {
  * @param {string} options.reviews - The reviews value.
  */
 const prependStyleUI = (row, { percent, reviews }) => {
+  const discountBlock = row.querySelector('.discount_block');
+  setAttributes(discountBlock, { style: 'padding-right: 20px !important;' });
   const color = reviewColor(
     Number(percent),
     Number(reviews.replace(/,/g, '')),
@@ -110,10 +112,12 @@ const prependStyleUI = (row, { percent, reviews }) => {
  * @param {HTMLElement} row - The row element containing the score UI.
  */
 const removeScoreUI = (row) => {
+  const parentContainer = row.querySelector('.responsive_search_name_combined');
   const container = row.querySelector('.search_reviewscore.responsive_secondrow');
   const img = row.querySelector('.search_capsule img');
 
   row.querySelector('.steam-better-ui-score-ui').remove();
+  deleteAttributes(parentContainer, ['style']);
   deleteAttributes(container, ['style']);
   deleteAttributes(img, ['style']);
   row.classList.remove('steam-better-ui-height');
@@ -126,6 +130,7 @@ const removeScoreUI = (row) => {
  */
 const removeStyleUI = (row) => {
   deleteAttributes(row, ['style']);
+  deleteAttributes(row.querySelector('.discount_block'), ['style']);
   row.classList.remove('steam-better-ui-border');
 };
 

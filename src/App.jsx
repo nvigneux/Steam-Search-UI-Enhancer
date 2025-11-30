@@ -64,18 +64,21 @@ function App() {
   /**
    * Get current URL
    */
-  useEffect(async () => {
+  useEffect(() => {
     // request actual status
-    const storage = await chrome.storage.local.get();
-    setScoreUi(storage.scoreUi);
-    setStyleUi(storage.styleUi);
-    setColorsUi(storage.colorsUi);
+    if (typeof chrome?.storage?.local?.get() !== 'function') return;
+
+    chrome.storage.local.get().then((storage) => {
+      setScoreUi(storage.scoreUi);
+      setStyleUi(storage.styleUi);
+      setColorsUi(storage.colorsUi);
+    });
   }, []);
 
   return (
     <div className="sbui">
       <header className="sbui-radial">
-        <h1 className="sbui-title">Steam Better UI</h1>
+        <h1 className="sbui-title">Steam Better UI 2</h1>
       </header>
       <main className="sbui-main">
         <div className="sbui-cat">

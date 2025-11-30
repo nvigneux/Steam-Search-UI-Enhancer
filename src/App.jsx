@@ -22,6 +22,7 @@ function App() {
    * Handles the score event by sending a message to the Chrome runtime.
    */
   const handleScoreEvent = async () => {
+    if (!chrome?.runtime) return;
     const res = await chrome.runtime.sendMessage({ type: 'TOGGLE_SCORE_UI', scoreUi: !scoreUi });
     setScoreUi(res.scoreUi);
   };
@@ -31,6 +32,7 @@ function App() {
    * @returns {void}
    */
   const handleStyleEvent = async () => {
+    if (!chrome?.runtime) return;
     const res = await chrome.runtime.sendMessage({ type: 'TOGGLE_STYLE_UI', styleUi: !styleUi });
     setStyleUi(res.styleUi);
   };
@@ -39,6 +41,7 @@ function App() {
    * Handles the colors UI event.
    */
   const handleColorsUiEvent = async () => {
+    if (!chrome?.runtime) return;
     const res = await chrome.runtime.sendMessage({ type: 'SET_COLORS_UI', colorsUi });
     setColorsUi(res.colorsUi);
   };
@@ -64,12 +67,15 @@ function App() {
   /**
    * Get current URL
    */
-  useEffect(async () => {
-    // request actual status
-    const storage = await chrome.storage.local.get();
-    setScoreUi(storage.scoreUi);
-    setStyleUi(storage.styleUi);
-    setColorsUi(storage.colorsUi);
+  useEffect(() => {
+    const loadStorage = async () => {
+      if (!chrome?.storage?.local) return;
+      const storage = await chrome.storage.local.get();
+      setScoreUi(storage.scoreUi);
+      setStyleUi(storage.styleUi);
+      setColorsUi(storage.colorsUi);
+    };
+    loadStorage();
   }, []);
 
   return (

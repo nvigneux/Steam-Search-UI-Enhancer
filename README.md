@@ -16,11 +16,11 @@
 
 ### Before
 
-![Before](public/assets/steam-search-basic.webp)
+![Before](public/assets/steam-search-basic-v2.webp)
 
 ### After
 
-![After](public/assets/steam-search-better-ui.webp)
+![After](public/assets/steam-search-better-ui-v2.webp)
 
 ## Installation
 

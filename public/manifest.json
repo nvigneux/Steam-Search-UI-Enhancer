@@ -2,7 +2,7 @@
   "short_name": "Steam Search UI Enhancer",
   "name": "Steam Search UI Enhancer",
   "description": "Enhances the UI of the Steam search. Adds color based on game ratings and simplifies the UI to easily spot the highest-rated games",
-  "version": "2.0",
+  "version": "2.1",
   "manifest_version": 3,
   "icons": {
     "16": "logo192.png",

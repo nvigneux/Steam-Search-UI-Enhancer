@@ -16,22 +16,15 @@
     "eslint-plugin-react-refresh": "^0.3.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build-zip": "react-scripts build && zip -r build.zip ./build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "build-zip": "vite build && zip -r build.zip ./build",
+    "preview": "vite preview",
     "lint": "eslint ."
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -48,6 +41,8 @@
   "devDependencies": {
     "@eslint/compat": "^1.0.1",
     "@eslint/js": "^9.3.0",
-    "globals": "^15.3.0"
+    "@vitejs/plugin-react": "^5.1.1",
+    "globals": "^15.3.0",
+    "vite": "^7.2.4"
   }
 }

@@ -31,15 +31,15 @@
 2. Install the necessary dependencies:
    ```sh
    cd steam-search-ui-enhancer
-   yarn install
+   npm install
    ```
 3. Start the application in development mode:
    ```sh
-   yarn start
+   npm run start
    ```
-4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4. Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 5. Load the extension in Chrome:
-   - Build `yarn build`
+   - Build `npm run build`
    - Open `chrome://extensions/`.
    - Enable `Developer mode`.
    - Click `Load unpacked` and select the `build` folder of your project.
@@ -57,22 +57,22 @@ Each commit message should be prefixed with these annotations:
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm run start`
 
 Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
-### `yarn test`
+### `npm run test`
 
 Launches the test runner in interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### `yarn eject`
+### `npm run eject`
 
 **Note:** This is a one-way operation. Once you `eject`, you can’t go back!
 

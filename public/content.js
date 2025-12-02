@@ -81,7 +81,7 @@ const prependScoreUI = (row, { percent, reviews }) => {
   const container = row.querySelector('.search_released.responsive_secondrow');
 
   setAttributes(parentContainer, {
-    style: 'grid-template-areas: "title none none price" "platforms release reviews price"; grid-template-columns: minmax(200px, 50%) minmax(85px, 20%) minmax(30px, 5%) minmax(100px, 25%);', // eslint-disable-line max-len
+    style: 'grid-template-areas: "title none none price" "platforms release reviews price"; grid-template-columns: minmax(200px, 50%) minmax(85px, 20%) minmax(30px, 5%) minmax(100px, 25%);',
   });
   setAttributes(container, { style: 'position:relative;' });
 

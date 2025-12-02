@@ -1,4 +1,3 @@
-/* eslint-disable react/void-dom-elements-no-children */
 import PropTypes from 'prop-types';
 
 // Style

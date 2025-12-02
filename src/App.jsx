@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { useState, useEffect } from 'react';
 
 // Components
